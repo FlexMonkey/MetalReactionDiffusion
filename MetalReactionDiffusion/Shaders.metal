@@ -9,14 +9,12 @@
 #include <metal_stdlib>
 using namespace metal;
 
-vertex float4 basic_vertex(
-                           const device packed_float3* vertex_array [[ buffer(0) ]],
-                           unsigned int vid [[ vertex_id ]])
-{
-    return float4(vertex_array[vid], 1.0);
-}
 
-fragment half4 basic_fragment()
+kernel void kernelShader(texture2d<float, access::read> inTexture [[texture(0)]],
+                              texture2d<float, access::write> outTexture [[texture(1)]],
+                              uint2 gid [[thread_position_in_grid]])
 {
-    return half4(1.0);
+    float4 inColor = inTexture.read(gid);
+
+    outTexture.write(inColor, gid);
 }

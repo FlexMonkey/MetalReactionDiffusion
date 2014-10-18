@@ -8,6 +8,7 @@
 //  Thanks to http://www.raywenderlich.com/77488/ios-8-metal-tutorial-swift-getting-started
 //  Thanks to https://twitter.com/steipete/status/473952933684330497
 //  Thanks to http://metalbyexample.com/textures-and-samplers/
+//  Thanks to http://metalbyexample.com/introduction-to-compute/
 
 import UIKit
 import Metal
@@ -15,25 +16,25 @@ import QuartzCore
 
 class ViewController: UIViewController
 {
+    var defaultLibrary: MTLLibrary! = nil
     var device: MTLDevice! = nil
-    var metalLayer: CAMetalLayer! = nil
-    var vertexBuffer: MTLBuffer! = nil
-    var pipelineState: MTLRenderPipelineState! = nil
     var commandQueue: MTLCommandQueue! = nil
-    var timer: CADisplayLink! = nil
-    var texture: MTLTexture!
 
-    let vertexData:[Float] = [
-        0.0, 1.0, 0.0,
-        -1.0, -1.0, 0.0,
-        1.0, -1.0, 0.0]
+    var texture: MTLTexture!
     
+    var outTexture: MTLTexture!
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         setUpMetal()
-        setUpTexture()
+
+        //-----
+   
+        
+        // let imageView =  UIImageView(frame: CGRectMake(0, 0, 200, 200))
+     
     }
 
     func setUpTexture()
@@ -60,84 +61,47 @@ class ViewController: UIViewController
         
         texture = device.newTextureWithDescriptor(textureDescriptor)
         
+        let outTextureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(texture.pixelFormat, width: Int(imageWidth), height: Int(imageHeight), mipmapped: false)
+        outTexture = device.newTextureWithDescriptor(outTextureDescriptor)
+        
         let region = MTLRegionMake2D(0, 0, Int(imageWidth), Int(imageHeight))
   
         texture.replaceRegion(region, mipmapLevel: 0, withBytes: &rawData, bytesPerRow: Int(bytesPerRow))
     }
-    
-    
-    
+ 
     func setUpMetal()
     {
         device = MTLCreateSystemDefaultDevice()
+     
+        defaultLibrary = device.newDefaultLibrary()
+        commandQueue = device.newCommandQueue()
         
-        metalLayer = CAMetalLayer()
-        metalLayer.device = device
-        metalLayer.pixelFormat = .BGRA8Unorm
-        metalLayer.framebufferOnly = true
-        metalLayer.frame = view.layer.frame
-        view.layer.addSublayer(metalLayer)
+        let kernelFunction = defaultLibrary.newFunctionWithName("kernelShader")
+        device.newComputePipelineStateWithFunction(kernelFunction!, completionHandler: computePipelineReady)
+    }
+ 
+    func computePipelineReady(value: MTLComputePipelineState!, error: NSError!) -> Void
+    {
+        setUpTexture()
         
-        let dataSize = vertexData.count * sizeofValue(vertexData[0])
-        vertexBuffer = device.newBufferWithBytes(vertexData, length: dataSize, options: nil)
+        let commandBuffer = commandQueue.commandBuffer()
+        let commandEncoder = commandBuffer.computeCommandEncoder()
         
-        let defaultLibrary = device.newDefaultLibrary()
-        let fragmentProgram = defaultLibrary!.newFunctionWithName("basic_fragment")
-        let vertexProgram = defaultLibrary!.newFunctionWithName("basic_vertex")
+        commandEncoder.setComputePipelineState(value)
+        commandEncoder.setTexture(texture, atIndex: 0)
+        commandEncoder.setTexture(outTexture, atIndex: 1)
         
-        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
-        pipelineStateDescriptor.vertexFunction = vertexProgram
-        pipelineStateDescriptor.fragmentFunction = fragmentProgram
-        pipelineStateDescriptor.colorAttachments.objectAtIndexedSubscript(0).pixelFormat = .BGRA8Unorm
-        
-        var pipelineError : NSError?
-        pipelineState = device.newRenderPipelineStateWithDescriptor(pipelineStateDescriptor, error: &pipelineError)
-        if pipelineState == nil
-        {
-            println("Failed to create pipeline state, error \(pipelineError)")
-        }
+        // let buffer = device.newBufferWithLength(outTexture.arrayLength, options: MTLResourceOptions.OptionCPUCacheModeDefault)
+        // commandEncoder.setBuffer(buffer, offset: 0, atIndex: 1)
+
+        let threadGroupCount = MTLSizeMake(8, 8, 1)
+        let threadGroups = MTLSizeMake(texture.width / threadGroupCount.width, texture.height / threadGroupCount.height, 1)
         
         commandQueue = device.newCommandQueue()
         
-        timer = CADisplayLink(target: self, selector: Selector("gameloop"))
-        timer.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+        commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
     }
- 
-    func render()
-    {
-        let drawable = metalLayer.nextDrawable()  // simon
-        
-        let renderPassDescriptor = MTLRenderPassDescriptor()
-        renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).texture = drawable.texture
-        renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).loadAction = .Clear
-        renderPassDescriptor.colorAttachments.objectAtIndexedSubscript(0).clearColor = MTLClearColor(red: 0.0, green: 104.0/255.0, blue: 5.0/255.0, alpha: 1.0)
-        
-        let commandBuffer = commandQueue.commandBuffer()
-        
-        let renderEncoderOpt = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
-        if let renderEncoder = renderEncoderOpt {
-            renderEncoder.setRenderPipelineState(pipelineState)
-            
-            renderEncoder.setFragmentTexture(texture, atIndex: 0)
-            
-            renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, atIndex: 0)
-            renderEncoder.drawPrimitives(.Triangle, vertexStart: 0, vertexCount: 3, instanceCount: 1)
-            renderEncoder.endEncoding()
-        }
-        
-        commandBuffer.presentDrawable(drawable)
-        commandBuffer.commit()
-    }
-    
-    func gameloop()
-    {
-        autoreleasepool
-        {
-            self.render()
-        }
-    }
-
-    override func didReceiveMemoryWarning()
+     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
