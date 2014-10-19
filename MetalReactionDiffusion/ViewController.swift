@@ -16,8 +16,12 @@ import QuartzCore
 
 class ViewController: UIViewController
 {
-    private let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
     private let bitmapInfo:CGBitmapInfo = CGBitmapInfo(CGImageAlphaInfo.NoneSkipFirst.toRaw())
+    
+    let bytesPerPixel = UInt(4)
+    let bitsPerComponent = UInt(8)
+    let bitsPerPixel:UInt = 32
+    let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
     
     var defaultLibrary: MTLLibrary! = nil
     var device: MTLDevice! = nil
@@ -32,8 +36,8 @@ class ViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        
+
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
         view.addSubview(imageView)
         
         setUpMetal()
@@ -46,16 +50,14 @@ class ViewController: UIViewController
         
         let imageWidth = CGImageGetWidth(imageRef)
         let imageHeight = CGImageGetHeight(imageRef)
-
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bytesPerPixel = UInt(4)
+ 
         let bytesPerRow = bytesPerPixel * imageWidth
-        let bitsPerComponent = UInt(8)
+        
         var rawData = [UInt8](count: Int(imageWidth * imageHeight * 4), repeatedValue: 0)
   
         let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.toRaw() | CGImageAlphaInfo.PremultipliedLast.toRaw())
 
-        let context = CGBitmapContextCreate(&rawData, imageWidth, imageHeight, bitsPerComponent, bytesPerRow, colorSpace, bitmapInfo)
+        let context = CGBitmapContextCreate(&rawData, imageWidth, imageHeight, bitsPerComponent, bytesPerRow, rgbColorSpace, bitmapInfo)
         
         CGContextDrawImage(context, CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight)), imageRef)
         
@@ -106,32 +108,28 @@ class ViewController: UIViewController
         
         let imageSize = CGSize(width: texture.width, height: texture.height)
         let imageByteCount = Int(imageSize.width * imageSize.height * 4)
-        let bytesPerPixel = UInt(4)
-        let bitsPerComponent = UInt(8)
-        let bitsPerPixel:UInt = 32
+        
         let bytesPerRow = bytesPerPixel * UInt(imageSize.width)
         var imageBytes = [UInt8](count: imageByteCount, repeatedValue: 0)
         let region = MTLRegionMake2D(0, 0, Int(imageSize.width), Int(imageSize.height))
         
         outTexture.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
-
+        
         let providerRef = CGDataProviderCreateWithCFData(
             NSData(bytes: &imageBytes, length: imageBytes.count * sizeof(UInt8))
         )
         
-       let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.toRaw() | CGImageAlphaInfo.PremultipliedLast.toRaw())
+        let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.toRaw() | CGImageAlphaInfo.PremultipliedLast.toRaw())
         let renderingIntent = kCGRenderingIntentDefault
         
         let imageRef = CGImageCreate(UInt(imageSize.width), UInt(imageSize.height), bitsPerComponent, bitsPerPixel, bytesPerRow, rgbColorSpace, bitmapInfo, providerRef, nil, false, renderingIntent)
         
-       imageView.image = UIImage(CGImage: imageRef)
-        
-       imageView.frame = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
+        imageView.image = UIImage(CGImage: imageRef)
     }
-    
+ 
     override func viewDidLayoutSubviews()
     {
-        
+         imageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
     }
     
     override func didReceiveMemoryWarning()
