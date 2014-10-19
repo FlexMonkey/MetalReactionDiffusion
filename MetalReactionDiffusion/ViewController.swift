@@ -46,12 +46,12 @@ class ViewController: UIViewController
         
         let imageWidth = CGImageGetWidth(imageRef)
         let imageHeight = CGImageGetHeight(imageRef)
-        
+
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bytesPerPixel = UInt(8)
+        let bytesPerPixel = UInt(4)
         let bytesPerRow = bytesPerPixel * imageWidth
         let bitsPerComponent = UInt(8)
-        var rawData = [UInt](count: Int(imageWidth * imageHeight * 4), repeatedValue: 0)
+        var rawData = [UInt8](count: Int(imageWidth * imageHeight * 4), repeatedValue: 0)
   
         let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.toRaw() | CGImageAlphaInfo.PremultipliedLast.toRaw())
 
@@ -102,36 +102,31 @@ class ViewController: UIViewController
         
         // write image....
         
-        let imageSize = CGSize(width: outTexture.width, height: outTexture.height)
-        let imageByteCount = imageSize.width * imageSize.height * 4
-        let bytesPerPixel = UInt(8)
+        let imageSize = CGSize(width: texture.width, height: texture.height)
+        let imageByteCount = Int(imageSize.width * imageSize.height * 4)
+        let bytesPerPixel = UInt(4)
         let bitsPerComponent = UInt(8)
         let bitsPerPixel:UInt = 32
         let bytesPerRow = bytesPerPixel * UInt(imageSize.width)
-        var imageBytes = [UInt](count: Int(imageSize.width * imageSize.height * 4), repeatedValue: 0)
+        var imageBytes = [UInt8](count: imageByteCount, repeatedValue: 0)
         let region = MTLRegionMake2D(0, 0, Int(imageSize.width), Int(imageSize.height))
         
-        outTexture.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
+        texture.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
         
-        let providerRef = CGDataProviderCreateWithCFData(NSData(bytes: &imageBytes, length: imageBytes.count))
-        
-        let cgim = CGImageCreate(
-            UInt(imageSize.width),
-            UInt(imageSize.height),
-            UInt(bitsPerComponent),
-            UInt(bitsPerPixel),
-            UInt(imageSize.width * 4),
-            rgbColorSpace,
-            bitmapInfo,
-            providerRef,
-            nil,
-            true,
-            kCGRenderingIntentDefault
+    // let providerRef = CGDataProviderCreateWithData(nil, imageBytes, UInt(imageByteCount), nil)
+
+        let providerRef = CGDataProviderCreateWithCFData(
+            NSData(bytes: &imageBytes, length: imageBytes.count * sizeof(UInt8))
         )
         
-        imageView.image = UIImage(CGImage: cgim)
+       let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.toRaw() | CGImageAlphaInfo.PremultipliedLast.toRaw())
+        let renderingIntent = kCGRenderingIntentDefault
         
-        imageView.frame = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
+        let imageRef = CGImageCreate(UInt(imageSize.width), UInt(imageSize.height), bitsPerComponent, bitsPerPixel, bytesPerRow, rgbColorSpace, bitmapInfo, providerRef, nil, false, renderingIntent)
+        
+       imageView.image = UIImage(CGImage: imageRef)
+        
+       imageView.frame = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
     }
     
     override func viewDidLayoutSubviews()
