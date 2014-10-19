@@ -16,21 +16,22 @@ import QuartzCore
 
 class ViewController: UIViewController
 {
-    private let bitmapInfo:CGBitmapInfo = CGBitmapInfo(CGImageAlphaInfo.NoneSkipFirst.toRaw())
+    let bitmapInfo:CGBitmapInfo = CGBitmapInfo(CGImageAlphaInfo.NoneSkipFirst.toRaw())
     
     let bytesPerPixel = UInt(4)
     let bitsPerComponent = UInt(8)
     let bitsPerPixel:UInt = 32
     let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
     
+    var pipelineState: MTLComputePipelineState!
     var defaultLibrary: MTLLibrary! = nil
     var device: MTLDevice! = nil
     var commandQueue: MTLCommandQueue! = nil
 
-    let imageView =  UIImageView(frame: CGRectMake(0, 0, 200, 200))
+    let imageView =  UIImageView(frame: CGRectZero)
+    let slider = UISlider(frame: CGRectZero)
     
     var texture: MTLTexture!
-    
     var outTexture: MTLTexture!
 
     override func viewDidLoad()
@@ -40,9 +41,32 @@ class ViewController: UIViewController
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         view.addSubview(imageView)
         
+        slider.enabled = false
+        slider.addTarget(self, action: "xyzzy:", forControlEvents: UIControlEvents.ValueChanged)
+        view.addSubview(slider)
+        
         setUpMetal()
     }
 
+    func xyzzy(value: UISlider)
+    {
+        applyFilter()
+    }
+    
+    func setUpMetal()
+    {
+        device = MTLCreateSystemDefaultDevice()
+        
+        defaultLibrary = device.newDefaultLibrary()
+        commandQueue = device.newCommandQueue()
+        
+        let kernelFunction = defaultLibrary.newFunctionWithName("kernelShader")
+        pipelineState = device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
+        
+        setUpTexture()
+        applyFilter()
+    }
+    
     func setUpTexture()
     {
         let image = UIImage(named: "grand_canyon.jpg")
@@ -71,29 +95,16 @@ class ViewController: UIViewController
         let region = MTLRegionMake2D(0, 0, Int(imageWidth), Int(imageHeight))
         texture.replaceRegion(region, mipmapLevel: 0, withBytes: &rawData, bytesPerRow: Int(bytesPerRow))
     }
- 
-    func setUpMetal()
+
+    func applyFilter()
     {
-        device = MTLCreateSystemDefaultDevice()
-     
-        defaultLibrary = device.newDefaultLibrary()
-        commandQueue = device.newCommandQueue()
-        
-        let kernelFunction = defaultLibrary.newFunctionWithName("kernelShader")
-        device.newComputePipelineStateWithFunction(kernelFunction!, completionHandler: computePipelineReady)
-    }
- 
-    func computePipelineReady(value: MTLComputePipelineState!, error: NSError!) -> Void
-    {
-        setUpTexture()
-        
         let commandBuffer = commandQueue.commandBuffer()
         let commandEncoder = commandBuffer.computeCommandEncoder()
         
-        commandEncoder.setComputePipelineState(value)
+        commandEncoder.setComputePipelineState(pipelineState)
         commandEncoder.setTexture(texture, atIndex: 0)
         commandEncoder.setTexture(outTexture, atIndex: 1)
-
+        
         let threadGroupCount = MTLSizeMake(8, 8, 1)
         let threadGroups = MTLSizeMake(texture.width / threadGroupCount.width, texture.height / threadGroupCount.height, 1)
         
@@ -129,7 +140,9 @@ class ViewController: UIViewController
  
     override func viewDidLayoutSubviews()
     {
-         imageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        imageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        
+        slider.frame = CGRect(x: 20, y: view.frame.height - 50, width: view.frame.width - 40, height: 50)
     }
     
     override func didReceiveMemoryWarning()
