@@ -46,13 +46,13 @@ class ViewController: UIViewController
         slider.minimumValue = 0
         slider.maximumValue = 5
 
-        slider.addTarget(self, action: "xyzzy:", forControlEvents: UIControlEvents.ValueChanged)
+        slider.addTarget(self, action: "sliderChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
         view.addSubview(slider)
         
         setUpMetal()
     }
 
-    func xyzzy(value: UISlider)
+    func sliderChangeHandler(value: UISlider)
     {
         saturationFactor = slider.value
         
