@@ -99,6 +99,8 @@ class ViewController: UIViewController
         
         commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
         commandEncoder.endEncoding()
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
         
         // write image....
         
@@ -111,9 +113,7 @@ class ViewController: UIViewController
         var imageBytes = [UInt8](count: imageByteCount, repeatedValue: 0)
         let region = MTLRegionMake2D(0, 0, Int(imageSize.width), Int(imageSize.height))
         
-        texture.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
-        
-    // let providerRef = CGDataProviderCreateWithData(nil, imageBytes, UInt(imageByteCount), nil)
+        outTexture.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
 
         let providerRef = CGDataProviderCreateWithCFData(
             NSData(bytes: &imageBytes, length: imageBytes.count * sizeof(UInt8))

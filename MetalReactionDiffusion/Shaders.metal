@@ -15,6 +15,8 @@ kernel void kernelShader(texture2d<float, access::read> inTexture [[texture(0)]]
                               uint2 gid [[thread_position_in_grid]])
 {
     float4 inColor = inTexture.read(gid);
-
-    outTexture.write(inColor, gid);
+    float value = dot(inColor.rgb, float3(0.299, 0.587, 0.114));
+    float4 grayColor(value, value, value, 1.0);
+    float4 outColor = mix(grayColor, inColor, 0.0);
+    outTexture.write(outColor, gid);
 }
