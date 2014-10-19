@@ -33,6 +33,8 @@ class ViewController: UIViewController
     
     var texture: MTLTexture!
     var outTexture: MTLTexture!
+    
+    var saturationFactor: Float = 0
 
     override func viewDidLoad()
     {
@@ -41,7 +43,9 @@ class ViewController: UIViewController
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         view.addSubview(imageView)
         
-        slider.enabled = false
+        slider.minimumValue = 0
+        slider.maximumValue = 5
+
         slider.addTarget(self, action: "xyzzy:", forControlEvents: UIControlEvents.ValueChanged)
         view.addSubview(slider)
         
@@ -50,6 +54,8 @@ class ViewController: UIViewController
 
     func xyzzy(value: UISlider)
     {
+        saturationFactor = slider.value
+        
         applyFilter()
     }
     
@@ -105,6 +111,10 @@ class ViewController: UIViewController
         commandEncoder.setTexture(texture, atIndex: 0)
         commandEncoder.setTexture(outTexture, atIndex: 1)
         
+        var saturationFactor = AdjustSaturationUniforms(saturationFactor: self.saturationFactor)
+        var buffer: MTLBuffer = device.newBufferWithBytes(&saturationFactor, length: sizeof(AdjustSaturationUniforms), options: nil)
+        commandEncoder.setBuffer(buffer, offset: 0, atIndex: 0)
+        
         let threadGroupCount = MTLSizeMake(8, 8, 1)
         let threadGroups = MTLSizeMake(texture.width / threadGroupCount.width, texture.height / threadGroupCount.height, 1)
         
@@ -150,7 +160,10 @@ class ViewController: UIViewController
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+}
 
+struct AdjustSaturationUniforms
+{
+    var saturationFactor: Float
 }
 
