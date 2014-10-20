@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BEA8066519F40E75001C1673 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8066419F40E75001C1673 /* Async.swift */; };
+		BEA8066719F4589A001C1673 /* noisyBox.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEA8066619F4589A001C1673 /* noisyBox.jpg */; };
 		BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */; };
 		BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A4F219F21FCD00C158C8 /* ViewController.swift */; };
 		BEB6A4F619F21FCD00C158C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB6A4F419F21FCD00C158C8 /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BEA8066419F40E75001C1673 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
+		BEA8066619F4589A001C1673 /* noisyBox.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noisyBox.jpg; sourceTree = "<group>"; };
 		BEB6A4EB19F21FCD00C158C8 /* MetalReactionDiffusion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalReactionDiffusion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEB6A4EF19F21FCD00C158C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 				BEB6A51219F2261C00C158C8 /* grand_canyon.jpg */,
 				BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */,
 				BEB6A4F219F21FCD00C158C8 /* ViewController.swift */,
+				BEA8066619F4589A001C1673 /* noisyBox.jpg */,
+				BEA8066419F40E75001C1673 /* Async.swift */,
 				BEB6A51019F2214900C158C8 /* Shaders.metal */,
 				BEB6A4F419F21FCD00C158C8 /* Main.storyboard */,
 				BEB6A4F719F21FCD00C158C8 /* Images.xcassets */,
@@ -198,6 +204,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEA8066719F4589A001C1673 /* noisyBox.jpg in Resources */,
 				BEB6A4F619F21FCD00C158C8 /* Main.storyboard in Resources */,
 				BEB6A4FB19F21FCD00C158C8 /* LaunchScreen.xib in Resources */,
 				BEB6A51319F2261C00C158C8 /* grand_canyon.jpg in Resources */,
@@ -219,6 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEA8066519F40E75001C1673 /* Async.swift in Sources */,
 				BEB6A51119F2214900C158C8 /* Shaders.metal in Sources */,
 				BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */,
 				BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */,
@@ -417,6 +425,7 @@
 				BEB6A50C19F21FCD00C158C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEB6A50D19F21FCD00C158C8 /* Build configuration list for PBXNativeTarget "MetalReactionDiffusionTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +434,7 @@
 				BEB6A50F19F21FCD00C158C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

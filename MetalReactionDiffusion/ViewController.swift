@@ -16,7 +16,8 @@ import QuartzCore
 
 class ViewController: UIViewController
 {
-    let bitmapInfo:CGBitmapInfo = CGBitmapInfo(CGImageAlphaInfo.NoneSkipFirst.toRaw())
+    let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.rawValue | CGImageAlphaInfo.PremultipliedLast.rawValue)
+    let renderingIntent = kCGRenderingIntentDefault
     
     let bytesPerPixel = UInt(4)
     let bitsPerComponent = UInt(8)
@@ -31,24 +32,37 @@ class ViewController: UIViewController
     let imageView =  UIImageView(frame: CGRectZero)
     let slider = UISlider(frame: CGRectZero)
     
-    var texture: MTLTexture!
-    var outTexture: MTLTexture!
+    var textureA: MTLTexture!
+    var textureB: MTLTexture!
+    var useTextureAForInput : Bool = true
     
     var saturationFactor: Float = 0
+    
+    var imageSize:CGSize!
+    var imageByteCount: Int!
+    
+    var image:UIImage!
+    
+    var threadGroupCount:MTLSize!
+    var threadGroups: MTLSize!
+    
+    var fitzhughNagumoParameters = FitzhughNagumoParameters()
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
         view.addSubview(imageView)
         
+        /*
         slider.minimumValue = 0
         slider.maximumValue = 5
 
         slider.addTarget(self, action: "sliderChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
         view.addSubview(slider)
-        
+        */
+
         setUpMetal()
     }
 
@@ -66,58 +80,84 @@ class ViewController: UIViewController
         defaultLibrary = device.newDefaultLibrary()
         commandQueue = device.newCommandQueue()
         
-        let kernelFunction = defaultLibrary.newFunctionWithName("kernelShader")
+        let kernelFunction = defaultLibrary.newFunctionWithName("fitzhughNagumoShader")
         pipelineState = device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
         
         setUpTexture()
-        applyFilter()
+        run()
+    }
+    
+    func run()
+    {
+        Async.background()
+        {
+            self.image = self.applyFilter()
+        }
+        .main
+        {
+            self.imageView.image = self.image
+            self.useTextureAForInput = !self.useTextureAForInput
+            self.run()
+        }
     }
     
     func setUpTexture()
     {
-        let image = UIImage(named: "grand_canyon.jpg")
-        let imageRef = image.CGImage
+        let image = UIImage(named: "noisyBox.jpg")
+        let imageRef = image?.CGImage!
         
         let imageWidth = CGImageGetWidth(imageRef)
         let imageHeight = CGImageGetHeight(imageRef)
- 
+  
+        threadGroupCount = MTLSizeMake(8, 8, 1)
+        threadGroups = MTLSizeMake(Int(imageWidth) / threadGroupCount.width, Int(imageHeight) / threadGroupCount.height, 1)
+        
         let bytesPerRow = bytesPerPixel * imageWidth
         
+        imageSize = CGSize(width: Int(imageWidth), height: Int(imageHeight))
+        imageByteCount = Int(imageSize.width * imageSize.height * 4)
+        
         var rawData = [UInt8](count: Int(imageWidth * imageHeight * 4), repeatedValue: 0)
-  
-        let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.toRaw() | CGImageAlphaInfo.PremultipliedLast.toRaw())
 
         let context = CGBitmapContextCreate(&rawData, imageWidth, imageHeight, bitsPerComponent, bytesPerRow, rgbColorSpace, bitmapInfo)
         
         CGContextDrawImage(context, CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight)), imageRef)
         
-        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.RGBA8Unorm, width: Int(imageWidth), height: Int(imageHeight), mipmapped: true)
+        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.RGBA8Unorm, width: Int(imageWidth), height: Int(imageHeight), mipmapped: false)
         
-        texture = device.newTextureWithDescriptor(textureDescriptor)
+        textureA = device.newTextureWithDescriptor(textureDescriptor)
         
-        let outTextureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(texture.pixelFormat, width: texture.width, height: texture.height, mipmapped: false)
-        outTexture = device.newTextureWithDescriptor(outTextureDescriptor)
+        let outTextureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(textureA.pixelFormat, width: textureA.width, height: textureA.height, mipmapped: false)
+        textureB = device.newTextureWithDescriptor(outTextureDescriptor)
         
         let region = MTLRegionMake2D(0, 0, Int(imageWidth), Int(imageHeight))
-        texture.replaceRegion(region, mipmapLevel: 0, withBytes: &rawData, bytesPerRow: Int(bytesPerRow))
+        textureA.replaceRegion(region, mipmapLevel: 0, withBytes: &rawData, bytesPerRow: Int(bytesPerRow))
     }
 
-    func applyFilter()
+
+    
+    final func applyFilter() -> UIImage
     {
         let commandBuffer = commandQueue.commandBuffer()
         let commandEncoder = commandBuffer.computeCommandEncoder()
         
         commandEncoder.setComputePipelineState(pipelineState)
-        commandEncoder.setTexture(texture, atIndex: 0)
-        commandEncoder.setTexture(outTexture, atIndex: 1)
         
-        var saturationFactor = AdjustSaturationUniforms(saturationFactor: self.saturationFactor)
-        var buffer: MTLBuffer = device.newBufferWithBytes(&saturationFactor, length: sizeof(AdjustSaturationUniforms), options: nil)
+        if useTextureAForInput
+        {
+            commandEncoder.setTexture(textureA, atIndex: 0)
+            commandEncoder.setTexture(textureB, atIndex: 1)
+        }
+        else
+        {
+            commandEncoder.setTexture(textureB, atIndex: 0)
+            commandEncoder.setTexture(textureA, atIndex: 1)
+        }
+ 
+        var buffer: MTLBuffer = device.newBufferWithBytes(&fitzhughNagumoParameters, length: sizeof(FitzhughNagumoParameters), options: nil)
         commandEncoder.setBuffer(buffer, offset: 0, atIndex: 0)
-        
-        let threadGroupCount = MTLSizeMake(8, 8, 1)
-        let threadGroups = MTLSizeMake(texture.width / threadGroupCount.width, texture.height / threadGroupCount.height, 1)
-        
+       
+
         commandQueue = device.newCommandQueue()
         
         commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
@@ -126,26 +166,26 @@ class ViewController: UIViewController
         commandBuffer.waitUntilCompleted()
         
         // write image....
-        
-        let imageSize = CGSize(width: texture.width, height: texture.height)
-        let imageByteCount = Int(imageSize.width * imageSize.height * 4)
-        
+   
         let bytesPerRow = bytesPerPixel * UInt(imageSize.width)
         var imageBytes = [UInt8](count: imageByteCount, repeatedValue: 0)
         let region = MTLRegionMake2D(0, 0, Int(imageSize.width), Int(imageSize.height))
         
-        outTexture.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
+        if useTextureAForInput
+        {
+            textureB.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
+        }
+        else
+        {
+            textureA.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
+        }
         
-        let providerRef = CGDataProviderCreateWithCFData(
-            NSData(bytes: &imageBytes, length: imageBytes.count * sizeof(UInt8))
-        )
-        
-        let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.toRaw() | CGImageAlphaInfo.PremultipliedLast.toRaw())
-        let renderingIntent = kCGRenderingIntentDefault
-        
+        let providerRef = CGDataProviderCreateWithCFData(NSData(bytes: &imageBytes, length: imageBytes.count * sizeof(UInt8)))
+       
         let imageRef = CGImageCreate(UInt(imageSize.width), UInt(imageSize.height), bitsPerComponent, bitsPerPixel, bytesPerRow, rgbColorSpace, bitmapInfo, providerRef, nil, false, renderingIntent)
+
         
-        imageView.image = UIImage(CGImage: imageRef)
+        return UIImage(CGImage: imageRef)!
     }
  
     override func viewDidLayoutSubviews()
@@ -162,8 +202,15 @@ class ViewController: UIViewController
     }
 }
 
-struct AdjustSaturationUniforms
+struct FitzhughNagumoParameters
 {
-    var saturationFactor: Float
+    var timestep: Float = 0.1
+    var a0: Float = 0.2199
+    var a1: Float = 0.7000
+    var epsilon: Float = 0.6387
+    var delta: Float = 2.5400
+    var k1: Float = 2.0550
+    var k2: Float = 2.0092
+    var k3: Float = 0.5563
 }
 
