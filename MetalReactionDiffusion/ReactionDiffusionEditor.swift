@@ -23,10 +23,12 @@ class ReactionDiffusionEditor: UIControl
         
         toolbar.items = [resetSimulationButton, spacer, resetParametersButton]
         
+        toolbar.barStyle = UIBarStyle.BlackTranslucent
+        
         addSubview(toolbar)
     }
     
-    var reactionDiffusionModel: FitzhughNagumo!
+    var reactionDiffusionModel: ReactionDiffusion!
     {
         didSet
         {
@@ -44,11 +46,11 @@ class ReactionDiffusionEditor: UIControl
     
     func resetParameters()
     {
-        reactionDiffusionModel.reactionDiffusionStruct = FitzhughNagumoParameters()
+        reactionDiffusionModel.resetParameters()
         
         for widget in parameterWidgets
         {
-            widget.value = reactionDiffusionModel.getValueForFieldName(widget.fitzhughNagumoFieldName!)
+            widget.value = reactionDiffusionModel.getValueForFieldName(widget.reactionDiffusionFieldName!)
         }
         
         sendActionsForControlEvents(UIControlEvents.ValueChanged)
@@ -76,7 +78,7 @@ class ReactionDiffusionEditor: UIControl
             widget.maximumValue = reactionDiffusionModel.getMinMaxForFieldName(fieldName).max
       
             widget.value = reactionDiffusionModel.getValueForFieldName(fieldName)
-            widget.fitzhughNagumoFieldName = fieldName
+            widget.reactionDiffusionFieldName = fieldName
             
             widget.addTarget(self, action: "widgetChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
             
@@ -88,7 +90,7 @@ class ReactionDiffusionEditor: UIControl
     
     func widgetChangeHandler(widget: ParameterWidget)
     {
-        if let fieldName = widget.fitzhughNagumoFieldName
+        if let fieldName = widget.reactionDiffusionFieldName
         {
             reactionDiffusionModel.setValueForFieldName(fieldName, value: widget.value)
             

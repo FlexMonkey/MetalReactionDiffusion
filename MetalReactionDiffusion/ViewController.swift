@@ -51,7 +51,7 @@ class ViewController: UIViewController
     var threadGroupCount:MTLSize!
     var threadGroups: MTLSize!
 
-    var reactionDiffusionModel = FitzhughNagumo()
+    var reactionDiffusionModel: ReactionDiffusion = FitzhughNagumo()
     
     override func viewDidLoad()
     {
@@ -81,7 +81,7 @@ class ViewController: UIViewController
         defaultLibrary = device.newDefaultLibrary()
         commandQueue = device.newCommandQueue()
         
-        let kernelFunction = defaultLibrary.newFunctionWithName("fitzhughNagumoShader")
+        let kernelFunction = defaultLibrary.newFunctionWithName(reactionDiffusionModel.shaderName)
         pipelineState = device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
         
         setUpTexture()
@@ -175,7 +175,7 @@ class ViewController: UIViewController
             commandEncoder.setTexture(textureA, atIndex: 1)
         }
  
-        var buffer: MTLBuffer = device.newBufferWithBytes(&reactionDiffusionModel.reactionDiffusionStruct, length: sizeof(FitzhughNagumoParameters), options: nil)
+        var buffer: MTLBuffer = device.newBufferWithBytes(&reactionDiffusionModel.reactionDiffusionStruct, length: sizeof(ReactionDiffusionParameters), options: nil)
         commandEncoder.setBuffer(buffer, offset: 0, atIndex: 0)
  
         commandQueue = device.newCommandQueue()

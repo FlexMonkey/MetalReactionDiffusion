@@ -8,22 +8,32 @@
 
 import Foundation
 
-struct FitzhughNagumo
+class FitzhughNagumo: ReactionDiffusionBase, ReactionDiffusion
 {
     let name = "FitzhughNagumo"
+ 
+    let shaderName = "fitzhughNagumoShader"
     
-    var reactionDiffusionStruct = FitzhughNagumoParameters()
+    let fieldNames = [ReactionDiffusionFieldNames.timestep,
+                ReactionDiffusionFieldNames.a0,
+                ReactionDiffusionFieldNames.a1,
+                ReactionDiffusionFieldNames.epsilon,
+                ReactionDiffusionFieldNames.delta,
+                ReactionDiffusionFieldNames.k1,
+                ReactionDiffusionFieldNames.k2,
+                ReactionDiffusionFieldNames.k3]
+}
+
+class ReactionDiffusionBase
+{
+    var reactionDiffusionStruct = ReactionDiffusionParameters()
     
-    let fieldNames = [FitzhughNagumoFieldNames.timestep,
-                FitzhughNagumoFieldNames.a0,
-                FitzhughNagumoFieldNames.a1,
-                FitzhughNagumoFieldNames.epsilon,
-                FitzhughNagumoFieldNames.delta,
-                FitzhughNagumoFieldNames.k1,
-                FitzhughNagumoFieldNames.k2,
-                FitzhughNagumoFieldNames.k3]
+    func resetParameters()
+    {
+      reactionDiffusionStruct = ReactionDiffusionParameters()
+    }
     
-    func getValueForFieldName(fieldName: FitzhughNagumoFieldNames) -> Float
+    func getValueForFieldName(fieldName: ReactionDiffusionFieldNames) -> Float
     {
         var returnValue: Float = 0.0
         
@@ -50,7 +60,7 @@ struct FitzhughNagumo
         return returnValue
     }
     
-    mutating func setValueForFieldName(fieldName: FitzhughNagumoFieldNames, value: Float)
+    func setValueForFieldName(fieldName: ReactionDiffusionFieldNames, value: Float)
     {
         switch(fieldName)
         {
@@ -73,7 +83,7 @@ struct FitzhughNagumo
         }
     }
     
-    func getMinMaxForFieldName(fieldName: FitzhughNagumoFieldNames) -> (min: Float, max: Float)
+    func getMinMaxForFieldName(fieldName: ReactionDiffusionFieldNames) -> (min: Float, max: Float)
     {
         var returnValue: (min: Float, max: Float) = (min: 0.0, max: 0.0)
         
@@ -97,7 +107,7 @@ struct FitzhughNagumo
     
 }
 
-enum FitzhughNagumoFieldNames: String
+enum ReactionDiffusionFieldNames: String
 {
     case timestep = "Timestep"
     case a0 = "a0"
@@ -109,7 +119,7 @@ enum FitzhughNagumoFieldNames: String
     case k3 = "k3"
 }
 
-struct FitzhughNagumoParameters
+struct ReactionDiffusionParameters
 {
     var timestep: Float = 0.1
     var a0: Float = 0.2199

@@ -41,13 +41,13 @@ class ParameterWidget: UIControl
     
     func popoulateLabel()
     {
-        if let fieldName = fitzhughNagumoFieldName
+        if let fieldName = reactionDiffusionFieldName
         {
             label.text = fieldName.rawValue + " = " + NSString(format: "%.6f", value)
         }
     }
     
-    var fitzhughNagumoFieldName: FitzhughNagumoFieldNames?
+    var reactionDiffusionFieldName: ReactionDiffusionFieldNames?
     {
         didSet
         {

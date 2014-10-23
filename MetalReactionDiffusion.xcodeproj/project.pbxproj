@@ -11,6 +11,7 @@
 		BE97558819F901960003C748 /* ReactionDiffusionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */; };
 		BE9AA3A319F90A3E006640BF /* ReactionDiffusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A219F90A3E006640BF /* ReactionDiffusion.swift */; };
 		BE9AA3A519F92808006640BF /* ParameterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A419F92808006640BF /* ParameterWidget.swift */; };
+		BE9AA3A719F950A6006640BF /* ReactionDiffusionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A619F950A6006640BF /* ReactionDiffusionProtocol.swift */; };
 		BEA8066519F40E75001C1673 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8066419F40E75001C1673 /* Async.swift */; };
 		BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */; };
 		BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A4F219F21FCD00C158C8 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 		BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionEditor.swift; sourceTree = "<group>"; };
 		BE9AA3A219F90A3E006640BF /* ReactionDiffusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusion.swift; sourceTree = "<group>"; };
 		BE9AA3A419F92808006640BF /* ParameterWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterWidget.swift; sourceTree = "<group>"; };
+		BE9AA3A619F950A6006640BF /* ReactionDiffusionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionProtocol.swift; sourceTree = "<group>"; };
 		BEA8066419F40E75001C1673 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		BEB6A4EB19F21FCD00C158C8 /* MetalReactionDiffusion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalReactionDiffusion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEB6A4EF19F21FCD00C158C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				BE9AA3A219F90A3E006640BF /* ReactionDiffusion.swift */,
+				BE9AA3A619F950A6006640BF /* ReactionDiffusionProtocol.swift */,
 			);
 			name = reactionDiffusion;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE9AA3A719F950A6006640BF /* ReactionDiffusionProtocol.swift in Sources */,
 				BEA8066519F40E75001C1673 /* Async.swift in Sources */,
 				BE97558819F901960003C748 /* ReactionDiffusionEditor.swift in Sources */,
 				BE9AA3A519F92808006640BF /* ParameterWidget.swift in Sources */,
