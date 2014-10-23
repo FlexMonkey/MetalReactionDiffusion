@@ -1,8 +1,8 @@
 MetalReactionDiffusion
 ======================
 
+![iPad Screen Shot](http://flexmonkey.co.uk/ipad_reaction_diffusion.png)
+
 Reaction Diffusion using Swift &amp; Metal
 
-Kicking off by creating and implementing a basic conmpute shader in Metal based on [this article on kernel functions](http://metalbyexample.com/introduction-to-compute/) by [Metal By Example](http://metalbyexample.com/)
-
-See [my blog](http://flexmonkey.blogspot.co.uk/) for more information 
+An example of using Metal and Swift to simulate Fitzhugh Nagumo reaction diffusion
