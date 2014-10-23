@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE97558219F8E8C00003C748 /* noisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE97558119F8E8C00003C748 /* noisySquare.jpg */; };
+		BE97558819F901960003C748 /* ReactionDiffusionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */; };
+		BE9AA3A319F90A3E006640BF /* ReactionDiffusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A219F90A3E006640BF /* ReactionDiffusion.swift */; };
+		BE9AA3A519F92808006640BF /* ParameterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A419F92808006640BF /* ParameterWidget.swift */; };
 		BEA8066519F40E75001C1673 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8066419F40E75001C1673 /* Async.swift */; };
-		BEA8066719F4589A001C1673 /* noisyBox.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEA8066619F4589A001C1673 /* noisyBox.jpg */; };
 		BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */; };
 		BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A4F219F21FCD00C158C8 /* ViewController.swift */; };
 		BEB6A4F619F21FCD00C158C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB6A4F419F21FCD00C158C8 /* Main.storyboard */; };
@@ -16,7 +19,6 @@
 		BEB6A4FB19F21FCD00C158C8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEB6A4F919F21FCD00C158C8 /* LaunchScreen.xib */; };
 		BEB6A50719F21FCD00C158C8 /* MetalReactionDiffusionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A50619F21FCD00C158C8 /* MetalReactionDiffusionTests.swift */; };
 		BEB6A51119F2214900C158C8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A51019F2214900C158C8 /* Shaders.metal */; };
-		BEB6A51319F2261C00C158C8 /* grand_canyon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB6A51219F2261C00C158C8 /* grand_canyon.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,8 +32,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE97558119F8E8C00003C748 /* noisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noisySquare.jpg; sourceTree = "<group>"; };
+		BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionEditor.swift; sourceTree = "<group>"; };
+		BE9AA3A219F90A3E006640BF /* ReactionDiffusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusion.swift; sourceTree = "<group>"; };
+		BE9AA3A419F92808006640BF /* ParameterWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterWidget.swift; sourceTree = "<group>"; };
 		BEA8066419F40E75001C1673 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
-		BEA8066619F4589A001C1673 /* noisyBox.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noisyBox.jpg; sourceTree = "<group>"; };
 		BEB6A4EB19F21FCD00C158C8 /* MetalReactionDiffusion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalReactionDiffusion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEB6A4EF19F21FCD00C158C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +48,6 @@
 		BEB6A50519F21FCD00C158C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEB6A50619F21FCD00C158C8 /* MetalReactionDiffusionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalReactionDiffusionTests.swift; sourceTree = "<group>"; };
 		BEB6A51019F2214900C158C8 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
-		BEB6A51219F2261C00C158C8 /* grand_canyon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grand_canyon.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE97558319F8FD8A0003C748 /* async */ = {
+			isa = PBXGroup;
+			children = (
+				BEA8066419F40E75001C1673 /* Async.swift */,
+			);
+			name = async;
+			sourceTree = "<group>";
+		};
+		BE97558419F8FD940003C748 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				BE97558119F8E8C00003C748 /* noisySquare.jpg */,
+			);
+			name = assets;
+			sourceTree = "<group>";
+		};
+		BE97558519F8FDA90003C748 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				BEB6A51019F2214900C158C8 /* Shaders.metal */,
+			);
+			name = shaders;
+			sourceTree = "<group>";
+		};
+		BE97558619F901430003C748 /* widgets */ = {
+			isa = PBXGroup;
+			children = (
+				BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */,
+				BE9AA3A419F92808006640BF /* ParameterWidget.swift */,
+			);
+			name = widgets;
+			sourceTree = "<group>";
+		};
+		BE9AA3A119F90A1D006640BF /* reactionDiffusion */ = {
+			isa = PBXGroup;
+			children = (
+				BE9AA3A219F90A3E006640BF /* ReactionDiffusion.swift */,
+			);
+			name = reactionDiffusion;
+			sourceTree = "<group>";
+		};
 		BEB6A4E219F21FCD00C158C8 = {
 			isa = PBXGroup;
 			children = (
@@ -85,12 +130,13 @@
 		BEB6A4ED19F21FCD00C158C8 /* MetalReactionDiffusion */ = {
 			isa = PBXGroup;
 			children = (
-				BEB6A51219F2261C00C158C8 /* grand_canyon.jpg */,
+				BE9AA3A119F90A1D006640BF /* reactionDiffusion */,
+				BE97558619F901430003C748 /* widgets */,
+				BE97558519F8FDA90003C748 /* shaders */,
+				BE97558419F8FD940003C748 /* assets */,
+				BE97558319F8FD8A0003C748 /* async */,
 				BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */,
 				BEB6A4F219F21FCD00C158C8 /* ViewController.swift */,
-				BEA8066619F4589A001C1673 /* noisyBox.jpg */,
-				BEA8066419F40E75001C1673 /* Async.swift */,
-				BEB6A51019F2214900C158C8 /* Shaders.metal */,
 				BEB6A4F419F21FCD00C158C8 /* Main.storyboard */,
 				BEB6A4F719F21FCD00C158C8 /* Images.xcassets */,
 				BEB6A4F919F21FCD00C158C8 /* LaunchScreen.xib */,
@@ -173,6 +219,7 @@
 				TargetAttributes = {
 					BEB6A4EA19F21FCD00C158C8 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = ZBFYF9JG5V;
 					};
 					BEB6A4FF19F21FCD00C158C8 = {
 						CreatedOnToolsVersion = 6.0;
@@ -204,10 +251,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEA8066719F4589A001C1673 /* noisyBox.jpg in Resources */,
 				BEB6A4F619F21FCD00C158C8 /* Main.storyboard in Resources */,
 				BEB6A4FB19F21FCD00C158C8 /* LaunchScreen.xib in Resources */,
-				BEB6A51319F2261C00C158C8 /* grand_canyon.jpg in Resources */,
+				BE97558219F8E8C00003C748 /* noisySquare.jpg in Resources */,
 				BEB6A4F819F21FCD00C158C8 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,8 +273,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEA8066519F40E75001C1673 /* Async.swift in Sources */,
+				BE97558819F901960003C748 /* ReactionDiffusionEditor.swift in Sources */,
+				BE9AA3A519F92808006640BF /* ParameterWidget.swift in Sources */,
 				BEB6A51119F2214900C158C8 /* Shaders.metal in Sources */,
 				BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */,
+				BE9AA3A319F90A3E006640BF /* ReactionDiffusion.swift in Sources */,
 				BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,10 +403,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MetalReactionDiffusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -365,10 +417,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MetalReactionDiffusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = 1;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
