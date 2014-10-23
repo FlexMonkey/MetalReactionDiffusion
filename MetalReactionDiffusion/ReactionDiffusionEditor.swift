@@ -12,6 +12,7 @@ class ReactionDiffusionEditor: UIControl
 {
     var parameterWidgets = [ParameterWidget]()
     let toolbar = UIToolbar(frame: CGRectZero)
+    let menuButton = UIButton(frame: CGRectZero)
 
     override func didMoveToSuperview()
     {
@@ -26,6 +27,18 @@ class ReactionDiffusionEditor: UIControl
         toolbar.barStyle = UIBarStyle.BlackTranslucent
         
         addSubview(toolbar)
+        
+        menuButton.layer.borderColor = UIColor.lightGrayColor().CGColor
+        menuButton.layer.borderWidth = 1
+        menuButton.layer.cornerRadius = 5
+        
+        menuButton.showsTouchWhenHighlighted = true
+        menuButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+        menuButton.setImage(UIImage(named: "hamburger.png"), forState: UIControlState.Normal)
+
+        menuButton.addTarget(self, action: "displayCallout", forControlEvents: UIControlEvents.TouchDown)
+        
+        addSubview(menuButton)
         
         layer.shadowColor = UIColor.blackColor().CGColor
         layer.shadowOffset = CGSize(width: -1, height: 2)
@@ -43,6 +56,39 @@ class ReactionDiffusionEditor: UIControl
         }
     }
 
+    func displayCallout()
+    {
+        // work in progress! Refactor to create once, draw list of possible models from seperate class....
+        
+        var alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        let fitzhughNagumoAction = UIAlertAction(title: "FitzHugh–Nagumo", style: UIAlertActionStyle.Default, handler: nil)
+        let grayScottAction = UIAlertAction(title: "Gray-Scott", style: UIAlertActionStyle.Default, handler: nil)
+        let belousovZhabotinskyAction = UIAlertAction(title: "Belousov-Zhabotinsky", style: UIAlertActionStyle.Default, handler: nil)
+        
+        alertController.addAction(fitzhughNagumoAction)
+        alertController.addAction(grayScottAction)
+        alertController.addAction(belousovZhabotinskyAction)
+        
+        if let viewController = UIApplication.sharedApplication().keyWindow!.rootViewController
+        {
+            if let popoverPresentationController = alertController.popoverPresentationController
+            {
+                let xx = menuButton.frame.origin.x + frame.origin.x
+                let yy = menuButton.frame.origin.y + frame.origin.y
+                
+                popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirection.Right
+                
+                popoverPresentationController.sourceRect = CGRect(x: xx, y: yy, width: menuButton.frame.width, height: menuButton.frame.height)
+                popoverPresentationController.sourceView = viewController.view
+                
+                popoverPresentationController
+                
+                viewController.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func resetSimulation()
     {
         sendActionsForControlEvents(UIControlEvents.ResetSimulation)
@@ -62,6 +108,9 @@ class ReactionDiffusionEditor: UIControl
     
     func createUserInterface()
     {
+        menuButton.setTitle(reactionDiffusionModel.name, forState: UIControlState.Normal)
+        menuButton.titleLabel?.sizeToFit()
+        
         for widget in parameterWidgets
         {
             var varWidget: ParameterWidget? = widget
@@ -110,8 +159,16 @@ class ReactionDiffusionEditor: UIControl
         
         for (idx: Int, widget: ParameterWidget) in enumerate(parameterWidgets)
         {
-            widget.frame = CGRect(x: 10, y: 10 + idx * 80, width: Int(frame.width - 20), height: 55)
+            widget.frame = CGRect(x: 10, y: 60 + idx * 80, width: Int(frame.width - 20), height: 55)
         }
+        
+        menuButton.frame = CGRect(x: 10, y: 10, width: Int(frame.width - 20), height: 30)
+        menuButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        menuButton.titleLabel?.textAlignment = NSTextAlignment.Right
+
+        menuButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        menuButton.imageEdgeInsets = UIEdgeInsetsMake(0, -40, 0, 0)
     }
 
 }
