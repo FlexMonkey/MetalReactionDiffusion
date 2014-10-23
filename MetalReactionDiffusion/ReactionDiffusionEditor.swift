@@ -26,6 +26,10 @@ class ReactionDiffusionEditor: UIControl
         toolbar.barStyle = UIBarStyle.BlackTranslucent
         
         addSubview(toolbar)
+        
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowOffset = CGSize(width: -1, height: 2)
+        layer.shadowOpacity = 1
     }
     
     var reactionDiffusionModel: ReactionDiffusion!
