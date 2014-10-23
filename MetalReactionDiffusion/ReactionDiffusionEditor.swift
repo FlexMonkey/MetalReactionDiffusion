@@ -11,7 +11,21 @@ import UIKit
 class ReactionDiffusionEditor: UIControl
 {
     var parameterWidgets = [ParameterWidget]()
+    let toolbar = UIToolbar(frame: CGRectZero)
 
+    override func didMoveToSuperview()
+    {
+        let resetSimulationButton = UIBarButtonItem(title: "Reset Sim", style: UIBarButtonItemStyle.Plain, target: self, action: "resetSimulation")
+        
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
+        let resetParametersButton = UIBarButtonItem(title: "Reset Params", style: UIBarButtonItemStyle.Plain, target: self, action: "resetParameters")
+        
+        toolbar.items = [resetSimulationButton, spacer, resetParametersButton]
+        
+        addSubview(toolbar)
+    }
+    
     var reactionDiffusionModel: FitzhughNagumo!
     {
         didSet
@@ -23,6 +37,23 @@ class ReactionDiffusionEditor: UIControl
         }
     }
 
+    func resetSimulation()
+    {
+        sendActionsForControlEvents(UIControlEvents.ResetSimulation)
+    }
+    
+    func resetParameters()
+    {
+        reactionDiffusionModel.reactionDiffusionStruct = FitzhughNagumoParameters()
+        
+        for widget in parameterWidgets
+        {
+            widget.value = reactionDiffusionModel.getValueForFieldName(widget.fitzhughNagumoFieldName!)
+        }
+        
+        sendActionsForControlEvents(UIControlEvents.ValueChanged)
+    }
+    
     func createUserInterface()
     {
         for widget in parameterWidgets
@@ -69,10 +100,17 @@ class ReactionDiffusionEditor: UIControl
     {
         layer.backgroundColor = UIColor.darkGrayColor().CGColor
 
+        toolbar.frame = CGRect(x: 0, y: frame.height - 40, width: frame.width, height: 40)
+        
         for (idx: Int, widget: ParameterWidget) in enumerate(parameterWidgets)
         {
-            widget.frame = CGRect(x: 10, y: 40 + idx * 80, width: Int(frame.width - 20), height: 55)
+            widget.frame = CGRect(x: 10, y: 10 + idx * 80, width: Int(frame.width - 20), height: 55)
         }
     }
 
+}
+
+extension UIControlEvents
+{
+    static let ResetSimulation: UIControlEvents = UIControlEvents(0x00000001 << 24)
 }

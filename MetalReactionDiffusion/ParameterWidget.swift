@@ -60,6 +60,7 @@ class ParameterWidget: UIControl
         didSet
         {
             slider.value = value
+            popoulateLabel()
         }
     }
     

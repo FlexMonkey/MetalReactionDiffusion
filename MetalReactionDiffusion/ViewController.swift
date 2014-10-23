@@ -19,6 +19,8 @@ class ViewController: UIViewController
     let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.rawValue | CGImageAlphaInfo.PremultipliedLast.rawValue)
     let renderingIntent = kCGRenderingIntentDefault
     
+    var imageSide: UInt!
+    
     let bytesPerPixel = UInt(4)
     let bitsPerComponent = UInt(8)
     let bitsPerPixel:UInt = 32
@@ -37,17 +39,17 @@ class ViewController: UIViewController
     var region: MTLRegion!
     var textureA: MTLTexture!
     var textureB: MTLTexture!
-    var useTextureAForInput : Bool = true
+    var useTextureAForInput = true
+    var resetSimulationFlag = false
 
     var imageSize:CGSize!
     var imageByteCount: Int!
     
     var image:UIImage!
+    var runTime = CFAbsoluteTimeGetCurrent()
     
     var threadGroupCount:MTLSize!
     var threadGroups: MTLSize!
-    
-    // var fitzhughNagumoParameters = FitzhughNagumoParameters()
 
     var reactionDiffusionModel = FitzhughNagumo()
     
@@ -62,14 +64,13 @@ class ViewController: UIViewController
         
         editor.reactionDiffusionModel = reactionDiffusionModel
         editor.addTarget(self, action: "editorChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
+        editor.addTarget(self, action: "resetSimulationHandler", forControlEvents: UIControlEvents.ResetSimulation)
 
         setUpMetal()
     }
 
     final func editorChangeHandler(value: ReactionDiffusionEditor)
     {
-        println(value.reactionDiffusionModel.getValueForFieldName(FitzhughNagumoFieldNames.timestep))
-        
         reactionDiffusionModel.reactionDiffusionStruct = value.reactionDiffusionModel.reactionDiffusionStruct
     }
     
@@ -86,8 +87,11 @@ class ViewController: UIViewController
         setUpTexture()
         run()
     }
-    
-    var runTime = CFAbsoluteTimeGetCurrent()
+
+    func resetSimulationHandler()
+    {
+        resetSimulationFlag = true
+    }
     
     final func run()
     {
@@ -99,9 +103,17 @@ class ViewController: UIViewController
         {
             self.imageView.image = self.image
             self.useTextureAForInput = !self.useTextureAForInput
+            
+            if self.resetSimulationFlag && self.useTextureAForInput
+            {
+                self.resetSimulationFlag = false
+                
+                self.setUpTexture()
+            }
+            
             self.run()
             
-            // println("Step Time: \(CFAbsoluteTimeGetCurrent() - self.runTime))")
+            println("Step Time: \(CFAbsoluteTimeGetCurrent() - self.runTime))")
             self.runTime = CFAbsoluteTimeGetCurrent()
         }
     }
@@ -111,7 +123,10 @@ class ViewController: UIViewController
         let image = UIImage(named: "noisySquare.jpg")
         let imageRef = image?.CGImage!
         
-        let imageSide = UInt(view.frame.height - topLayoutGuide.length)
+        if imageSide == nil
+        {
+            imageSide = UInt(view.frame.height - topLayoutGuide.length)
+        }
         
         let imageWidth = UInt(imageSide) // CGImageGetWidth(imageRef)
         let imageHeight = UInt(imageSide) // CGImageGetHeight(imageRef)
@@ -120,8 +135,7 @@ class ViewController: UIViewController
         threadGroups = MTLSizeMake(Int(imageWidth) / threadGroupCount.width, Int(imageHeight) / threadGroupCount.height, 1)
         
         bytesPerRow = bytesPerPixel * imageWidth
-        
-        
+
         imageSize = CGSize(width: Int(imageWidth), height: Int(imageHeight))
         imageByteCount = Int(imageSize.width * imageSize.height * 4)
         providerLength = imageByteCount * sizeof(UInt8)
