@@ -30,6 +30,7 @@ class ViewController: UIViewController
     
     let bytesPerRow = UInt(4 * 640)
     let providerLength = Int(640 * 640 * 4) * sizeof(UInt8)
+    var imageBytes = [UInt8](count: Int(640 * 640 * 4), repeatedValue: 0)
     
     var pipelineState: MTLComputePipelineState!
     var defaultLibrary: MTLLibrary! = nil
@@ -142,8 +143,8 @@ class ViewController: UIViewController
             
             self.run()
             
-            // let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
-            // println("\(fps) fps")
+            let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
+            println("\(fps) fps")
             self.runTime = CFAbsoluteTimeGetCurrent()
         }
     }
@@ -199,10 +200,7 @@ class ViewController: UIViewController
         commandEncoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
-   
-        // write image....
-        var imageBytes = [UInt8](count: imageByteCount, repeatedValue: 0)
- 
+        
         if useTextureAForInput
         {
             textureB.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
