@@ -9,8 +9,10 @@
 #include <metal_stdlib>
 using namespace metal;
 
-struct FitzhughNagumoParameters
+struct ReactionDiffusionParameters
 {
+    // Fitzhugh-Nagumo
+    
     float timestep;
     float a0;
     float a1;
@@ -19,6 +21,13 @@ struct FitzhughNagumoParameters
     float k1;
     float k2;
     float k3;
+    
+    // Gray Scott
+    
+    float F;
+    float K;
+    float Du;
+    float Dv;
 };
 
 /*
@@ -28,7 +37,7 @@ struct FitzhughNagumoParameters
  */
     kernel void fitzhughNagumoShader(texture2d<float, access::read> inTexture [[texture(0)]],
                              texture2d<float, access::write> outTexture [[texture(1)]],
-                             constant FitzhughNagumoParameters &params [[buffer(0)]],
+                             constant ReactionDiffusionParameters &params [[buffer(0)]],
                              uint2 gid [[thread_position_in_grid]])
     {
         uint2 northIndex(gid.x, gid.y - 1);
@@ -57,15 +66,13 @@ struct FitzhughNagumoParameters
         outTexture.write(outColor, gid);
     }
 
+
+
 kernel void grayScottShader(texture2d<float, access::read> inTexture [[texture(0)]],
                             texture2d<float, access::write> outTexture [[texture(1)]],
+                            constant ReactionDiffusionParameters &params [[buffer(0)]],
                             uint2 gid [[thread_position_in_grid]])
 {
-    float F = 0.028;
-    float K = 0.098;
-    float Du = 0.136;
-    float Dv = 0.026;
-    
     uint2 northIndex(gid.x, gid.y - 1);
     uint2 southIndex(gid.x, gid.y + 1);
     uint2 westIndex(gid.x - 1, gid.y);
@@ -82,8 +89,8 @@ kernel void grayScottShader(texture2d<float, access::read> inTexture [[texture(0
     
     float reactionRate = thisColor.r * thisColor.b * thisColor.b;
     
-    float u = thisColor.r + (Du * laplacian.r) - reactionRate + F * (1.0 - thisColor.r);
-    float v = thisColor.b + (Dv * laplacian.g) + reactionRate - K * thisColor.b;
+    float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0 - thisColor.r);
+    float v = thisColor.b + (params.Dv * laplacian.g) + reactionRate - params.K * thisColor.b;
     
  
     float4 outColor(u, u, v, 1);

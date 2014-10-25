@@ -49,7 +49,7 @@ class ReactionDiffusionEditor: UIControl
     {
         didSet
         {
-            if oldValue == nil || oldValue.name != reactionDiffusionModel.name
+            if oldValue == nil || oldValue.model.rawValue != reactionDiffusionModel.model.rawValue
             {
                 createUserInterface()
             }
@@ -62,13 +62,13 @@ class ReactionDiffusionEditor: UIControl
         
         var alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-        let fitzhughNagumoAction = UIAlertAction(title: "FitzHugh–Nagumo", style: UIAlertActionStyle.Default, handler: nil)
-        let grayScottAction = UIAlertAction(title: "Gray-Scott", style: UIAlertActionStyle.Default, handler: nil)
-        let belousovZhabotinskyAction = UIAlertAction(title: "Belousov-Zhabotinsky", style: UIAlertActionStyle.Default, handler: nil)
+        let fitzhughNagumoAction = UIAlertAction(title: ReactionDiffusionModels.FitzHughNagumo.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
+        let grayScottAction = UIAlertAction(title: ReactionDiffusionModels.GrayScott.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
+        // let belousovZhabotinskyAction = UIAlertAction(title: ReactionDiffusionModels.BelousovZhabotinsky.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
         
         alertController.addAction(fitzhughNagumoAction)
         alertController.addAction(grayScottAction)
-        alertController.addAction(belousovZhabotinskyAction)
+        // alertController.addAction(belousovZhabotinskyAction)
         
         if let viewController = UIApplication.sharedApplication().keyWindow!.rootViewController
         {
@@ -87,6 +87,15 @@ class ReactionDiffusionEditor: UIControl
                 viewController.presentViewController(alertController, animated: true, completion: nil)
             }
         }
+    }
+    
+    var requestedReactionDiffusionModel : ReactionDiffusionModels?
+    
+    func reactionDiffusionModelChangeHandler(value: UIAlertAction!) -> Void
+    {
+        requestedReactionDiffusionModel = ReactionDiffusionModels(rawValue: value.title)
+        
+        sendActionsForControlEvents(UIControlEvents.ModelChanged)
     }
     
     func resetSimulation()
@@ -108,7 +117,7 @@ class ReactionDiffusionEditor: UIControl
     
     func createUserInterface()
     {
-        menuButton.setTitle(reactionDiffusionModel.name, forState: UIControlState.Normal)
+        menuButton.setTitle(reactionDiffusionModel.model.rawValue, forState: UIControlState.Normal)
         menuButton.titleLabel?.sizeToFit()
         
         for widget in parameterWidgets
@@ -175,5 +184,6 @@ class ReactionDiffusionEditor: UIControl
 
 extension UIControlEvents
 {
-    static let ResetSimulation: UIControlEvents = UIControlEvents(0x00000001 << 24)
+    static let ResetSimulation: UIControlEvents = UIControlEvents(0x01000000)
+    static let ModelChanged: UIControlEvents = UIControlEvents(0x02000000)
 }

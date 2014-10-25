@@ -19,14 +19,17 @@ class ViewController: UIViewController
     let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.rawValue | CGImageAlphaInfo.PremultipliedLast.rawValue)
     let renderingIntent = kCGRenderingIntentDefault
     
-    var imageSide: UInt!
+    let imageSide: UInt = 640
+    let imageSize = CGSize(width: Int(640), height: Int(640))
+    let imageByteCount = Int(640 * 640 * 4)
     
     let bytesPerPixel = UInt(4)
     let bitsPerComponent = UInt(8)
     let bitsPerPixel:UInt = 32
     let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-    var bytesPerRow: UInt!
-    var providerLength: Int!
+    
+    let bytesPerRow = UInt(4 * 640)
+    let providerLength = Int(640 * 640 * 4) * sizeof(UInt8)
     
     var pipelineState: MTLComputePipelineState!
     var defaultLibrary: MTLLibrary! = nil
@@ -42,9 +45,6 @@ class ViewController: UIViewController
     var useTextureAForInput = true
     var resetSimulationFlag = false
 
-    var imageSize:CGSize!
-    var imageByteCount: Int!
-    
     var image:UIImage!
     var runTime = CFAbsoluteTimeGetCurrent()
     
@@ -52,6 +52,7 @@ class ViewController: UIViewController
     var threadGroups: MTLSize!
 
     var reactionDiffusionModel: ReactionDiffusion = FitzhughNagumo()
+    var requestedReactionDiffusionModel: ReactionDiffusionModels?
     
     override func viewDidLoad()
     {
@@ -65,10 +66,19 @@ class ViewController: UIViewController
         editor.reactionDiffusionModel = reactionDiffusionModel
         editor.addTarget(self, action: "editorChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
         editor.addTarget(self, action: "resetSimulationHandler", forControlEvents: UIControlEvents.ResetSimulation)
+        editor.addTarget(self, action: "modelChangedHandler:", forControlEvents: UIControlEvents.ModelChanged)
 
         setUpMetal()
     }
 
+    final func modelChangedHandler(value: ReactionDiffusionEditor)
+    {
+        if value.requestedReactionDiffusionModel != nil
+        {
+            requestedReactionDiffusionModel = value.requestedReactionDiffusionModel!
+        }
+    }
+    
     final func editorChangeHandler(value: ReactionDiffusionEditor)
     {
         reactionDiffusionModel.reactionDiffusionStruct = value.reactionDiffusionModel.reactionDiffusionStruct
@@ -111,9 +121,29 @@ class ViewController: UIViewController
                 self.setUpTexture()
             }
             
+            if self.requestedReactionDiffusionModel != nil && self.useTextureAForInput
+            {
+                let foo = self.requestedReactionDiffusionModel!
+                
+                switch foo
+                {
+                    case .GrayScott:
+                        self.reactionDiffusionModel = GrayScott()
+                    case .FitzHughNagumo:
+                        self.reactionDiffusionModel = FitzhughNagumo()
+                }
+                
+                self.requestedReactionDiffusionModel = nil
+                self.editor.reactionDiffusionModel = self.reactionDiffusionModel
+            
+                let kernelFunction = self.defaultLibrary.newFunctionWithName(self.reactionDiffusionModel.shaderName)
+                self.pipelineState = self.device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
+            }
+            
             self.run()
             
-            println("Step Time: \(CFAbsoluteTimeGetCurrent() - self.runTime))")
+            // let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
+            // println("\(fps) fps")
             self.runTime = CFAbsoluteTimeGetCurrent()
         }
     }
@@ -122,38 +152,24 @@ class ViewController: UIViewController
     {
         let image = UIImage(named: "noisySquare.jpg")
         let imageRef = image?.CGImage!
-        
-        if imageSide == nil
-        {
-            imageSide = UInt(view.frame.height - topLayoutGuide.length)
-        }
-        
-        let imageWidth = UInt(imageSide) // CGImageGetWidth(imageRef)
-        let imageHeight = UInt(imageSide) // CGImageGetHeight(imageRef)
-  
+
         threadGroupCount = MTLSizeMake(16, 16, 1)
-        threadGroups = MTLSizeMake(Int(imageWidth) / threadGroupCount.width, Int(imageHeight) / threadGroupCount.height, 1)
-        
-        bytesPerRow = bytesPerPixel * imageWidth
+        threadGroups = MTLSizeMake(Int(imageSide) / threadGroupCount.width, Int(imageSide) / threadGroupCount.height, 1)
 
-        imageSize = CGSize(width: Int(imageWidth), height: Int(imageHeight))
-        imageByteCount = Int(imageSize.width * imageSize.height * 4)
-        providerLength = imageByteCount * sizeof(UInt8)
-        
-        var rawData = [UInt8](count: Int(imageWidth * imageHeight * 4), repeatedValue: 0)
+        var rawData = [UInt8](count: Int(imageSide * imageSide * 4), repeatedValue: 0)
 
-        let context = CGBitmapContextCreate(&rawData, imageWidth, imageHeight, bitsPerComponent, bytesPerRow, rgbColorSpace, bitmapInfo)
+        let context = CGBitmapContextCreate(&rawData, imageSide, imageSide, bitsPerComponent, bytesPerRow, rgbColorSpace, bitmapInfo)
         
-        CGContextDrawImage(context, CGRectMake(0, 0, CGFloat(imageWidth), CGFloat(imageHeight)), imageRef)
+        CGContextDrawImage(context, CGRectMake(0, 0, CGFloat(imageSide), CGFloat(imageSide)), imageRef)
         
-        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.RGBA8Unorm, width: Int(imageWidth), height: Int(imageHeight), mipmapped: false)
+        let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(MTLPixelFormat.RGBA8Unorm, width: Int(imageSide), height: Int(imageSide), mipmapped: false)
         
         textureA = device.newTextureWithDescriptor(textureDescriptor)
         
         let outTextureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(textureA.pixelFormat, width: textureA.width, height: textureA.height, mipmapped: false)
         textureB = device.newTextureWithDescriptor(outTextureDescriptor)
         
-        region = MTLRegionMake2D(0, 0, Int(imageWidth), Int(imageHeight))
+        region = MTLRegionMake2D(0, 0, Int(imageSide), Int(imageSide))
         textureA.replaceRegion(region, mipmapLevel: 0, withBytes: &rawData, bytesPerRow: Int(bytesPerRow))
     }
 

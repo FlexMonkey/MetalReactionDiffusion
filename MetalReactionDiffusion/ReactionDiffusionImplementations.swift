@@ -10,7 +10,7 @@ import Foundation
 
 class FitzhughNagumo: ReactionDiffusionBase, ReactionDiffusion
 {
-    let name = "FitzHugh–Nagumo"
+    let model = ReactionDiffusionModels.FitzHughNagumo
  
     let shaderName = "fitzhughNagumoShader"
     
@@ -26,18 +26,20 @@ class FitzhughNagumo: ReactionDiffusionBase, ReactionDiffusion
 
 class GrayScott: ReactionDiffusionBase, ReactionDiffusion
 {
-    let name = "Gray-Scott"
+    let model = ReactionDiffusionModels.GrayScott
     
-    let shaderName = "-"
+    let shaderName = "grayScottShader"
     
-    let fieldNames = [ReactionDiffusionFieldNames.timestep]
+    let fieldNames = [ReactionDiffusionFieldNames.F, ReactionDiffusionFieldNames.K, ReactionDiffusionFieldNames.Du, ReactionDiffusionFieldNames.Dv]
 }
 
+/*
 class BelousovZhabotinsky: ReactionDiffusionBase, ReactionDiffusion
 {
-    let name = "Belousov-Zhabotinsky"
+    let model = ReactionDiffusionModels.BelousovZhabotinsky
     
     let shaderName = "-"
     
     let fieldNames = [ReactionDiffusionFieldNames.timestep]
 }
+*/

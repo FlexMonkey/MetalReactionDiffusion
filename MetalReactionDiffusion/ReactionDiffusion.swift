@@ -10,7 +10,7 @@ import Foundation
 
 protocol ReactionDiffusion
 {
-    var name: String { get }
+    var model: ReactionDiffusionModels { get }
     var fieldNames: [ReactionDiffusionFieldNames] { get }
     var shaderName: String { get }
     
@@ -54,6 +54,15 @@ class ReactionDiffusionBase
             returnValue = reactionDiffusionStruct.k2
         case .k3:
             returnValue = reactionDiffusionStruct.k3
+            
+        case .F:
+            returnValue = reactionDiffusionStruct.F
+        case .K:
+            returnValue = reactionDiffusionStruct.K
+        case .Du:
+            returnValue = reactionDiffusionStruct.Du
+        case .Dv:
+            returnValue = reactionDiffusionStruct.Dv
         }
         
         return returnValue
@@ -79,6 +88,15 @@ class ReactionDiffusionBase
             reactionDiffusionStruct.k2 = value
         case .k3:
             reactionDiffusionStruct.k3 = value
+            
+        case .F:
+            reactionDiffusionStruct.F = value
+        case .K:
+            reactionDiffusionStruct.K = value
+        case .Du:
+            reactionDiffusionStruct.Du = value
+        case .Dv:
+            reactionDiffusionStruct.Dv = value
         }
     }
     
@@ -98,15 +116,27 @@ class ReactionDiffusionBase
             returnValue = (min: 0.0, max: 4.0)
         case .k1, .k2, .k3:
             returnValue = (min: 0.0, max: 2.5)
+        case .F, .K:
+            returnValue = (min: 0.0, max: 0.1)
+        case .Du, .Dv:
+            returnValue = (min: 0.0, max: 0.25)
         }
         
         return returnValue
     }
 }
 
+enum ReactionDiffusionModels: String
+{
+    case FitzHughNagumo = "FitzHugh–Nagumo"
+    case GrayScott = "Gray-Scott"
+    // case BelousovZhabotinsky = "Belousov-Zhabotinsky"
+}
 
 enum ReactionDiffusionFieldNames: String
 {
+    // Fitzhugh-Nagumo
+    
     case timestep = "Timestep"
     case a0 = "a0"
     case a1 = "a1"
@@ -115,10 +145,19 @@ enum ReactionDiffusionFieldNames: String
     case k1 = "k1"
     case k2 = "k2"
     case k3 = "k3"
+    
+    // Gray Scott
+    
+    case F = "F"
+    case K = "K"
+    case Du = "Du"
+    case Dv = "Dv"
 }
 
 struct ReactionDiffusionParameters
 {
+    // Fitzhugh-Nagumo
+    
     var timestep: Float = 0.050373
     var a0: Float = 0.203125
     var a1: Float = 0.892578
@@ -127,4 +166,11 @@ struct ReactionDiffusionParameters
     var k1: Float = 1.533203
     var k2: Float = 0.507812
     var k3: Float = 1.943359
+    
+    // Gray Scott
+    
+    var F: Float = 0.028
+    var K: Float = 0.079
+    var Du: Float = 0.136
+    var Dv: Float = 0.026
 }
