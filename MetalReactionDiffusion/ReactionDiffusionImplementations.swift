@@ -7,12 +7,15 @@
 //
 
 import Foundation
+import UIKit
 
 class FitzhughNagumo: ReactionDiffusionBase, ReactionDiffusion
 {
     let model = ReactionDiffusionModels.FitzHughNagumo
  
     let shaderName = "fitzhughNagumoShader"
+    
+    let initalImage: UIImage = UIImage(named: "noisySquare.jpg")!
     
     let fieldNames = [ReactionDiffusionFieldNames.timestep,
                 ReactionDiffusionFieldNames.a0,
@@ -29,6 +32,8 @@ class GrayScott: ReactionDiffusionBase, ReactionDiffusion
     let model = ReactionDiffusionModels.GrayScott
     
     let shaderName = "grayScottShader"
+    
+    let initalImage = UIImage(named: "grayScottNoisySquare.jpg")!
     
     let fieldNames = [ReactionDiffusionFieldNames.F, ReactionDiffusionFieldNames.K, ReactionDiffusionFieldNames.Du, ReactionDiffusionFieldNames.Dv]
 }

@@ -7,12 +7,15 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ReactionDiffusion
 {
     var model: ReactionDiffusionModels { get }
     var fieldNames: [ReactionDiffusionFieldNames] { get }
     var shaderName: String { get }
+    
+    var initalImage: UIImage { get }
     
     var reactionDiffusionStruct: ReactionDiffusionParameters { get set }
     

@@ -150,8 +150,7 @@ class ViewController: UIViewController
 
     func setUpTexture()
     {
-        let image = UIImage(named: "noisySquare.jpg")
-        let imageRef = image?.CGImage!
+        let imageRef = reactionDiffusionModel.initalImage.CGImage!
 
         threadGroupCount = MTLSizeMake(16, 16, 1)
         threadGroups = MTLSizeMake(Int(imageSide) / threadGroupCount.width, Int(imageSide) / threadGroupCount.height, 1)
