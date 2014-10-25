@@ -13,6 +13,7 @@ class ReactionDiffusionEditor: UIControl
     var parameterWidgets = [ParameterWidget]()
     let toolbar = UIToolbar(frame: CGRectZero)
     let menuButton = UIButton(frame: CGRectZero)
+    let label = UILabel(frame: CGRectZero)
 
     override func didMoveToSuperview()
     {
@@ -39,6 +40,11 @@ class ReactionDiffusionEditor: UIControl
         menuButton.addTarget(self, action: "displayCallout", forControlEvents: UIControlEvents.TouchDown)
         
         addSubview(menuButton)
+        
+        label.textAlignment = NSTextAlignment.Right
+        label.textColor = UIColor.whiteColor()
+        
+        addSubview(label)
         
         layer.shadowColor = UIColor.blackColor().CGColor
         layer.shadowOffset = CGSize(width: -1, height: 2)
@@ -117,8 +123,7 @@ class ReactionDiffusionEditor: UIControl
     
     func createUserInterface()
     {
-        menuButton.setTitle(reactionDiffusionModel.model.rawValue, forState: UIControlState.Normal)
-        menuButton.titleLabel?.sizeToFit()
+        label.text = reactionDiffusionModel.model.rawValue
         
         for widget in parameterWidgets
         {
@@ -171,13 +176,9 @@ class ReactionDiffusionEditor: UIControl
             widget.frame = CGRect(x: 10, y: 60 + idx * 80, width: Int(frame.width - 20), height: 55)
         }
         
-        menuButton.frame = CGRect(x: 10, y: 10, width: Int(frame.width - 20), height: 30)
-        menuButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        menuButton.titleLabel?.textAlignment = NSTextAlignment.Right
-
-        menuButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        menuButton.frame = CGRect(x: 10, y: 10, width: 30, height: 30)
         
-        menuButton.imageEdgeInsets = UIEdgeInsetsMake(0, -40, 0, 0)
+        label.frame = CGRect(x: 40, y: 10, width: frame.width - 40 - 10, height: 30)
     }
 
 }
