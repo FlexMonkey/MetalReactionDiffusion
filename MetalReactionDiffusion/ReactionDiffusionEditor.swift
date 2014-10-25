@@ -64,7 +64,7 @@ class ReactionDiffusionEditor: UIControl
         
         let fitzhughNagumoAction = UIAlertAction(title: ReactionDiffusionModels.FitzHughNagumo.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
         let grayScottAction = UIAlertAction(title: ReactionDiffusionModels.GrayScott.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
-        let belousovZhabotinskyAction = UIAlertAction(title: "Belousov-Zhabotinsky", style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
+        let belousovZhabotinskyAction = UIAlertAction(title: ReactionDiffusionModels.BelousovZhabotinsky.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
         
         alertController.addAction(belousovZhabotinskyAction)
         alertController.addAction(fitzhughNagumoAction)

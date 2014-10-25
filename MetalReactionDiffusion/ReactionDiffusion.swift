@@ -66,6 +66,13 @@ class ReactionDiffusionBase
             returnValue = reactionDiffusionStruct.Du
         case .Dv:
             returnValue = reactionDiffusionStruct.Dv
+            
+        case .alpha:
+            returnValue = reactionDiffusionStruct.alpha
+        case .beta:
+            returnValue = reactionDiffusionStruct.beta
+        case .gamma:
+            returnValue = reactionDiffusionStruct.gamma
         }
         
         return returnValue
@@ -100,6 +107,13 @@ class ReactionDiffusionBase
             reactionDiffusionStruct.Du = value
         case .Dv:
             reactionDiffusionStruct.Dv = value
+            
+        case .alpha:
+            reactionDiffusionStruct.alpha = value
+        case .beta:
+            reactionDiffusionStruct.beta = value
+        case .gamma:
+            reactionDiffusionStruct.gamma = value
         }
     }
     
@@ -123,6 +137,9 @@ class ReactionDiffusionBase
             returnValue = (min: 0.0, max: 0.1)
         case .Du, .Dv:
             returnValue = (min: 0.0, max: 0.25)
+        case .alpha, .beta, .gamma:
+            returnValue = (min: -0.5, max: 1.5)
+            
         }
         
         return returnValue
@@ -133,7 +150,7 @@ enum ReactionDiffusionModels: String
 {
     case FitzHughNagumo = "FitzHugh–Nagumo"
     case GrayScott = "Gray-Scott"
-    // case BelousovZhabotinsky = "Belousov-Zhabotinsky"
+    case BelousovZhabotinsky = "Belousov-Zhabotinsky"
 }
 
 enum ReactionDiffusionFieldNames: String
@@ -155,6 +172,12 @@ enum ReactionDiffusionFieldNames: String
     case K = "K"
     case Du = "Du"
     case Dv = "Dv"
+    
+    // Belousov-Zhabotinsky
+    
+    case alpha = "Alpha"
+    case beta = "Beta"
+    case gamma = "Gamma"
 }
 
 struct ReactionDiffusionParameters
@@ -176,4 +199,11 @@ struct ReactionDiffusionParameters
     var K: Float = 0.079
     var Du: Float = 0.136
     var Dv: Float = 0.026
+    
+    // Belousov-Zhabotinsky
+    
+    var alpha: Float = 1.0
+    var beta: Float = 1.0
+    var gamma: Float = 1.0
+    
 }

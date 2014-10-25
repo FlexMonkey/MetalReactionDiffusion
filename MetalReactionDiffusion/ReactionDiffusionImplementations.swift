@@ -15,7 +15,7 @@ class FitzhughNagumo: ReactionDiffusionBase, ReactionDiffusion
  
     let shaderName = "fitzhughNagumoShader"
     
-    let initalImage: UIImage = UIImage(named: "noisySquare.jpg")!
+    let initalImage: UIImage = UIImage(named: "fhnNoisySquare.jpg")!
     
     let fieldNames = [ReactionDiffusionFieldNames.timestep,
                 ReactionDiffusionFieldNames.a0,
@@ -38,13 +38,14 @@ class GrayScott: ReactionDiffusionBase, ReactionDiffusion
     let fieldNames = [ReactionDiffusionFieldNames.F, ReactionDiffusionFieldNames.K, ReactionDiffusionFieldNames.Du, ReactionDiffusionFieldNames.Dv]
 }
 
-/*
+
 class BelousovZhabotinsky: ReactionDiffusionBase, ReactionDiffusion
 {
     let model = ReactionDiffusionModels.BelousovZhabotinsky
     
-    let shaderName = "-"
+    let shaderName = "belousovZhabotinskyShader"
     
-    let fieldNames = [ReactionDiffusionFieldNames.timestep]
+    let initalImage = UIImage(named: "belousovNoisySquare.jpg")!
+    
+    let fieldNames = [ReactionDiffusionFieldNames.alpha, ReactionDiffusionFieldNames.beta, ReactionDiffusionFieldNames.gamma]
 }
-*/

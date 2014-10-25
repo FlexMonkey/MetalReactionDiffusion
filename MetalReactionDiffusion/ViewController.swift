@@ -115,37 +115,42 @@ class ViewController: UIViewController
             self.imageView.image = self.image
             self.useTextureAForInput = !self.useTextureAForInput
             
-            if self.resetSimulationFlag && self.useTextureAForInput
-            {
-                self.resetSimulationFlag = false
-                
-                self.setUpTexture()
-            }
-            
-            if self.requestedReactionDiffusionModel != nil && self.useTextureAForInput
-            {
-                let foo = self.requestedReactionDiffusionModel!
-                
-                switch foo
+            if self.useTextureAForInput
                 {
-                    case .GrayScott:
-                        self.reactionDiffusionModel = GrayScott()
-                    case .FitzHughNagumo:
-                        self.reactionDiffusionModel = FitzhughNagumo()
+                if self.resetSimulationFlag
+                {
+                    self.resetSimulationFlag = false
+                    
+                    self.setUpTexture()
                 }
                 
-                self.requestedReactionDiffusionModel = nil
-                self.editor.reactionDiffusionModel = self.reactionDiffusionModel
-            
-                let kernelFunction = self.defaultLibrary.newFunctionWithName(self.reactionDiffusionModel.shaderName)
-                self.pipelineState = self.device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
+                if self.requestedReactionDiffusionModel != nil
+                {
+                    let foo = self.requestedReactionDiffusionModel!
+                    
+                    switch foo
+                    {
+                        case .GrayScott:
+                            self.reactionDiffusionModel = GrayScott()
+                        case .FitzHughNagumo:
+                            self.reactionDiffusionModel = FitzhughNagumo()
+                        case .BelousovZhabotinsky:
+                            self.reactionDiffusionModel = BelousovZhabotinsky()
+                    }
+                    
+                    self.requestedReactionDiffusionModel = nil
+                    self.editor.reactionDiffusionModel = self.reactionDiffusionModel
+                
+                    let kernelFunction = self.defaultLibrary.newFunctionWithName(self.reactionDiffusionModel.shaderName)
+                    self.pipelineState = self.device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
+                }
             }
-            
-            self.run()
             
             let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
             println("\(fps) fps")
             self.runTime = CFAbsoluteTimeGetCurrent()
+            
+            self.run()
         }
     }
 

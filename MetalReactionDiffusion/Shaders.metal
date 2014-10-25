@@ -28,6 +28,12 @@ struct ReactionDiffusionParameters
     float K;
     float Du;
     float Dv;
+    
+    // Belousov
+    
+    float alpha;
+    float beta;
+    float gamma;
 };
 
 /*
@@ -96,6 +102,34 @@ kernel void grayScottShader(texture2d<float, access::read> inTexture [[texture(0
     float4 outColor(u, u, v, 1);
     outTexture.write(outColor, gid);
 }
+
+kernel void belousovZhabotinskyShader(texture2d<float, access::read> inTexture [[texture(0)]],
+                            texture2d<float, access::write> outTexture [[texture(1)]],
+                            constant ReactionDiffusionParameters &params [[buffer(0)]],
+                            uint2 gid [[thread_position_in_grid]])
+{
+    
+    float3 accumColor = inTexture.read(gid).rgb;
+    
+    for (int j = -1; j <= 1; j++)
+    {
+        for (int i = -1; i <= 1; i++)
+        {
+            uint2 kernelIndex(gid.x + i, gid.y + j);
+            accumColor += inTexture.read(kernelIndex).rgb;
+        }
+    }
+    
+    accumColor.rgb = accumColor.rgb / float3(9.0f, 9.0f, 9.0f).rgb;
+    
+    float a = accumColor.r + accumColor.r * (params.alpha * params.gamma * accumColor.g) - accumColor.b;
+    float b = accumColor.g + accumColor.g * ((params.beta * accumColor.b) - (params.alpha * accumColor.r));
+    float c = accumColor.b + accumColor.b * ((params.gamma * accumColor.r) - (params.beta * accumColor.g));
+    
+    float4 outColor(a, b, c, 1);
+    outTexture.write(outColor, gid);
+}
+
 
 
 
