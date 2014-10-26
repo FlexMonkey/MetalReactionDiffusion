@@ -79,27 +79,26 @@ kernel void grayScottShader(texture2d<float, access::read> inTexture [[texture(0
                             constant ReactionDiffusionParameters &params [[buffer(0)]],
                             uint2 gid [[thread_position_in_grid]])
 {
-    uint2 northIndex(gid.x, gid.y - 1);
-    uint2 southIndex(gid.x, gid.y + 1);
-    uint2 westIndex(gid.x - 1, gid.y);
-    uint2 eastIndex(gid.x + 1, gid.y);
+    const uint2 northIndex(gid.x, gid.y - 1);
+    const uint2 southIndex(gid.x, gid.y + 1);
+    const uint2 westIndex(gid.x - 1, gid.y);
+    const uint2 eastIndex(gid.x + 1, gid.y);
     
-    float3 northColor = inTexture.read(northIndex).rgb;
-    float3 southColor = inTexture.read(southIndex).rgb;
-    float3 westColor = inTexture.read(westIndex).rgb;
-    float3 eastColor = inTexture.read(eastIndex).rgb;
+    const float3 northColor = inTexture.read(northIndex).rgb;
+    const float3 southColor = inTexture.read(southIndex).rgb;
+    const float3 westColor = inTexture.read(westIndex).rgb;
+    const float3 eastColor = inTexture.read(eastIndex).rgb;
                     
-    float3 thisColor = inTexture.read(gid).rgb;
+    const float3 thisColor = inTexture.read(gid).rgb;
     
-    float2 laplacian = (northColor.rb + southColor.rb + westColor.rb + eastColor.rb) - (4.0 * thisColor.rb);
+    const float2 laplacian = (northColor.rb + southColor.rb + westColor.rb + eastColor.rb) - (4.0 * thisColor.rb);
     
-    float reactionRate = thisColor.r * thisColor.b * thisColor.b;
+    const float reactionRate = thisColor.r * thisColor.b * thisColor.b;
     
-    float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0 - thisColor.r);
-    float v = thisColor.b + (params.Dv * laplacian.g) + reactionRate - (params.F + params.K) * thisColor.b;
-    
+    const float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0 - thisColor.r);
+    const float v = thisColor.b + (params.Dv * laplacian.g) + reactionRate - (params.F + params.K) * thisColor.b;
  
-    float4 outColor(u, u, v, 1);
+    const float4 outColor(u, u, v, 1);
     outTexture.write(outColor, gid);
 }
 

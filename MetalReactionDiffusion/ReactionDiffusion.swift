@@ -184,14 +184,14 @@ struct ReactionDiffusionParameters
 {
     // Fitzhugh-Nagumo
     
-    var timestep: Float = 0.050373
-    var a0: Float = 0.203125
-    var a1: Float = 0.892578
-    var epsilon: Float = 1.085938
-    var delta: Float = 2.54
-    var k1: Float = 1.533203
-    var k2: Float = 0.507812
-    var k3: Float = 1.943359
+    var timestep: Float = 0.02
+    var a0: Float = 0.289062
+    var a1: Float = 0.177734
+    var epsilon: Float = 1.152344
+    var delta: Float = 1.25
+    var k1: Float = 2.0996
+    var k2: Float = 0.083008
+    var k3: Float = 1.723
     
     // Gray Scott
     

@@ -52,7 +52,7 @@ class ViewController: UIViewController
     var threadGroupCount:MTLSize!
     var threadGroups: MTLSize!
 
-    var reactionDiffusionModel: ReactionDiffusion = FitzhughNagumo()
+    var reactionDiffusionModel: ReactionDiffusion = GrayScott()
     var requestedReactionDiffusionModel: ReactionDiffusionModels?
     
     override func viewDidLoad()
@@ -113,10 +113,9 @@ class ViewController: UIViewController
         .main
         {
             self.imageView.image = self.image
-            self.useTextureAForInput = !self.useTextureAForInput
-            
+
             if self.useTextureAForInput
-                {
+            {
                 if self.resetSimulationFlag
                 {
                     self.resetSimulationFlag = false
@@ -185,28 +184,35 @@ class ViewController: UIViewController
         
         commandEncoder.setComputePipelineState(pipelineState)
         
-        if useTextureAForInput
-        {
-            commandEncoder.setTexture(textureA, atIndex: 0)
-            commandEncoder.setTexture(textureB, atIndex: 1)
-        }
-        else
-        {
-            commandEncoder.setTexture(textureB, atIndex: 0)
-            commandEncoder.setTexture(textureA, atIndex: 1)
-        }
- 
         var buffer: MTLBuffer = device.newBufferWithBytes(&reactionDiffusionModel.reactionDiffusionStruct, length: sizeof(ReactionDiffusionParameters), options: nil)
         commandEncoder.setBuffer(buffer, offset: 0, atIndex: 0)
- 
+        
         commandQueue = device.newCommandQueue()
-
-        commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
+        
+        for i: Int in 0 ... 20
+        {
+            if useTextureAForInput
+            {
+                commandEncoder.setTexture(textureA, atIndex: 0)
+                commandEncoder.setTexture(textureB, atIndex: 1)
+            }
+            else
+            {
+                commandEncoder.setTexture(textureB, atIndex: 0)
+                commandEncoder.setTexture(textureA, atIndex: 1)
+            }
+   
+            commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
+    
+            self.useTextureAForInput = !self.useTextureAForInput
+        }
+        
         commandEncoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
         
-        if useTextureAForInput
+        
+        if !useTextureAForInput
         {
             textureB.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)
         }
