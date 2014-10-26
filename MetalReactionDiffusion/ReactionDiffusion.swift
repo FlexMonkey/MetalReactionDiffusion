@@ -158,13 +158,13 @@ enum ReactionDiffusionFieldNames: String
     // Fitzhugh-Nagumo
     
     case timestep = "Timestep"
-    case a0 = "a0"
-    case a1 = "a1"
+    case a0 = "a₀"
+    case a1 = "a₁"
     case epsilon = "Epsilon"
     case delta = "Delta"
-    case k1 = "k1"
-    case k2 = "k2"
-    case k3 = "k3"
+    case k1 = "k₁"
+    case k2 = "k₂"
+    case k3 = "k₃"
     
     // Gray Scott
     
@@ -195,10 +195,10 @@ struct ReactionDiffusionParameters
     
     // Gray Scott
     
-    var F: Float = 0.028
-    var K: Float = 0.079
-    var Du: Float = 0.136
-    var Dv: Float = 0.026
+    var F: Float = 0.057031
+    var K: Float = 0.063672
+    var Du: Float = 0.155762
+    var Dv: Float = 0.0644
     
     // Belousov-Zhabotinsky
     

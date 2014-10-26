@@ -96,7 +96,7 @@ kernel void grayScottShader(texture2d<float, access::read> inTexture [[texture(0
     float reactionRate = thisColor.r * thisColor.b * thisColor.b;
     
     float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0 - thisColor.r);
-    float v = thisColor.b + (params.Dv * laplacian.g) + reactionRate - params.K * thisColor.b;
+    float v = thisColor.b + (params.Dv * laplacian.g) + reactionRate - (params.F + params.K) * thisColor.b;
     
  
     float4 outColor(u, u, v, 1);
@@ -120,7 +120,7 @@ kernel void belousovZhabotinskyShader(texture2d<float, access::read> inTexture [
         }
     }
     
-    accumColor.rgb = accumColor.rgb / float3(9.0f, 9.0f, 9.0f).rgb;
+    accumColor.rgb = accumColor.rgb / 9.0f;
     
     float a = accumColor.r + accumColor.r * (params.alpha * params.gamma * accumColor.g) - accumColor.b;
     float b = accumColor.g + accumColor.g * ((params.beta * accumColor.b) - (params.alpha * accumColor.r));
