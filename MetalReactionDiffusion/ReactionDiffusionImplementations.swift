@@ -25,6 +25,8 @@ class FitzhughNagumo: ReactionDiffusionBase, ReactionDiffusion
                 ReactionDiffusionFieldNames.k1,
                 ReactionDiffusionFieldNames.k2,
                 ReactionDiffusionFieldNames.k3]
+    
+    let iterationsPerFrame = 20
 }
 
 class GrayScott: ReactionDiffusionBase, ReactionDiffusion
@@ -36,6 +38,8 @@ class GrayScott: ReactionDiffusionBase, ReactionDiffusion
     let initalImage = UIImage(named: "grayScottNoisySquare.jpg")!
     
     let fieldNames = [ReactionDiffusionFieldNames.F, ReactionDiffusionFieldNames.K, ReactionDiffusionFieldNames.Du, ReactionDiffusionFieldNames.Dv]
+    
+    let iterationsPerFrame = 20
 }
 
 
@@ -48,4 +52,6 @@ class BelousovZhabotinsky: ReactionDiffusionBase, ReactionDiffusion
     let initalImage = UIImage(named: "belousovNoisySquare.jpg")!
     
     let fieldNames = [ReactionDiffusionFieldNames.alpha, ReactionDiffusionFieldNames.beta, ReactionDiffusionFieldNames.gamma]
+    
+    let iterationsPerFrame = 2
 }

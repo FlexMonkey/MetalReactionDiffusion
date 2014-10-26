@@ -189,7 +189,7 @@ class ViewController: UIViewController
         
         commandQueue = device.newCommandQueue()
         
-        for i: Int in 0 ... 20
+        for _ in 0 ... reactionDiffusionModel.iterationsPerFrame
         {
             if useTextureAForInput
             {
@@ -204,7 +204,7 @@ class ViewController: UIViewController
    
             commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
     
-            self.useTextureAForInput = !self.useTextureAForInput
+            useTextureAForInput = !useTextureAForInput
         }
         
         commandEncoder.endEncoding()

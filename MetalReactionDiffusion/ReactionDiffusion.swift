@@ -14,6 +14,7 @@ protocol ReactionDiffusion
     var model: ReactionDiffusionModels { get }
     var fieldNames: [ReactionDiffusionFieldNames] { get }
     var shaderName: String { get }
+    var iterationsPerFrame: Int { get }
     
     var initalImage: UIImage { get }
     
