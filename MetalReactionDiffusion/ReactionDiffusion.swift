@@ -83,22 +83,22 @@ class ReactionDiffusionBase
     {
         switch(fieldName)
         {
-        case .timestep:
-            reactionDiffusionStruct.timestep = value
-        case .a0:
-            reactionDiffusionStruct.a0 = value
-        case .a1:
-            reactionDiffusionStruct.a1 = value
-        case .epsilon:
-            reactionDiffusionStruct.epsilon = value
-        case .delta:
-            reactionDiffusionStruct.delta = value
-        case .k1:
-            reactionDiffusionStruct.k1 = value
-        case .k2:
-            reactionDiffusionStruct.k2 = value
-        case .k3:
-            reactionDiffusionStruct.k3 = value
+            case .timestep:
+                reactionDiffusionStruct.timestep = value
+            case .a0:
+                reactionDiffusionStruct.a0 = value
+            case .a1:
+                reactionDiffusionStruct.a1 = value
+            case .epsilon:
+                reactionDiffusionStruct.epsilon = value
+            case .delta:
+                reactionDiffusionStruct.delta = value
+            case .k1:
+                reactionDiffusionStruct.k1 = value
+            case .k2:
+                reactionDiffusionStruct.k2 = value
+            case .k3:
+                reactionDiffusionStruct.k3 = value
             
         case .F:
             reactionDiffusionStruct.F = value

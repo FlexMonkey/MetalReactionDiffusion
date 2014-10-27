@@ -21,7 +21,7 @@ class ViewController: UIViewController
     
     let imageSide: UInt = 640
     let imageSize = CGSize(width: Int(640), height: Int(640))
-    let imageByteCount = Int(640 * 640 * 4)
+    let imageByteCount = Int(640 * 640 * 4) 
     
     let bytesPerPixel = UInt(4)
     let bitsPerComponent = UInt(8)
@@ -201,9 +201,9 @@ class ViewController: UIViewController
                 commandEncoder.setTexture(textureB, atIndex: 0)
                 commandEncoder.setTexture(textureA, atIndex: 1)
             }
-   
+
             commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupCount)
-    
+
             useTextureAForInput = !useTextureAForInput
         }
         

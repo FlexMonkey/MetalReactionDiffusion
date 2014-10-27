@@ -5,6 +5,9 @@
 //  Created by Simon Gladman on 18/10/2014.
 //  Copyright (c) 2014 Simon Gladman. All rights reserved.
 //
+// todo: https://code.google.com/p/reaction-diffusion/source/browse/trunk/Ready/Patterns/Yang2006/jumping.vti
+// todo: https://www.youtube.com/watch?v=JhipxYrgNvI
+
 
 #include <metal_stdlib>
 using namespace metal;
