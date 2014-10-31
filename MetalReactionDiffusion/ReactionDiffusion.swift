@@ -196,10 +196,10 @@ struct ReactionDiffusionParameters
     
     // Gray Scott
     
-    var F: Float = 0.0620 // 0.057031
-    var K: Float = 0.0609 //0.063672
-    var Du: Float = 0.164 // 0.155762
-    var Dv: Float = 0.079 // 0.0644
+    var F: Float = 0.057031
+    var K: Float = 0.063672
+    var Du: Float = 0.155762
+    var Dv: Float = 0.0644
     
     // Belousov-Zhabotinsky
     

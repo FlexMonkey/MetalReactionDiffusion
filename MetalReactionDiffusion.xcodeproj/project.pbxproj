@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BE3CC52C1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE3CC52B1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg */; };
-		BE54D9F719FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE54D9F519FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld */; };
 		BE97558219F8E8C00003C748 /* noisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE97558119F8E8C00003C748 /* noisySquare.jpg */; };
 		BE97558819F901960003C748 /* ReactionDiffusionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */; };
 		BE9AA3A319F90A3E006640BF /* ReactionDiffusionImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A219F90A3E006640BF /* ReactionDiffusionImplementations.swift */; };
@@ -41,7 +40,6 @@
 
 /* Begin PBXFileReference section */
 		BE3CC52B1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grayScottNoisySquareTwo.jpg; sourceTree = "<group>"; };
-		BE54D9F619FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MetalReactionDiffusion.xcdatamodel; sourceTree = "<group>"; };
 		BE97558119F8E8C00003C748 /* noisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noisySquare.jpg; sourceTree = "<group>"; };
 		BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionEditor.swift; sourceTree = "<group>"; };
 		BE9AA3A219F90A3E006640BF /* ReactionDiffusionImplementations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionImplementations.swift; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 				BE97558419F8FD940003C748 /* assets */,
 				BE97558319F8FD8A0003C748 /* async */,
 				BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */,
-				BE54D9F519FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld */,
 				BEB6A4F219F21FCD00C158C8 /* ViewController.swift */,
 				BEB6A4F419F21FCD00C158C8 /* Main.storyboard */,
 				BEB6A4F719F21FCD00C158C8 /* Images.xcassets */,
@@ -308,7 +305,6 @@
 				BE9AA3A519F92808006640BF /* ParameterWidget.swift in Sources */,
 				BEB6A51119F2214900C158C8 /* Shaders.metal in Sources */,
 				BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */,
-				BE54D9F719FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld in Sources */,
 				BE9AA3A319F90A3E006640BF /* ReactionDiffusionImplementations.swift in Sources */,
 				BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */,
 			);
@@ -524,19 +520,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		BE54D9F519FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				BE54D9F619FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodel */,
-			);
-			currentVersion = BE54D9F619FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodel */;
-			path = MetalReactionDiffusion.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = BEB6A4E319F21FCD00C158C8 /* Project object */;
 }

@@ -57,17 +57,7 @@ class ViewController: UIViewController
 
     var reactionDiffusionModel: ReactionDiffusion = GrayScott()
     var requestedReactionDiffusionModel: ReactionDiffusionModels?
-    
-    lazy var managedObjectContext : NSManagedObjectContext? = {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        if let managedObjectContext = appDelegate.managedObjectContext {
-            return managedObjectContext
-        }
-        else {
-            return nil
-        }
-        }()
-    
+
     override func viewDidLoad()
     {
         reactionDiffusionModel = FitzhughNagumo()

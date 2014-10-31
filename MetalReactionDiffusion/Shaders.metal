@@ -95,14 +95,13 @@ kernel void grayScottShader(texture2d<float, access::read> inTexture [[texture(0
                     
     const float3 thisColor = inTexture.read(gid).rgb;
     
-    const float2 laplacian = (northColor.rb + southColor.rb + westColor.rb + eastColor.rb) - (4.0 * thisColor.rb);
+    const float2 laplacian = (northColor.rb + southColor.rb + westColor.rb + eastColor.rb) - (4.0f * thisColor.rb);
     
     const float reactionRate = thisColor.r * thisColor.b * thisColor.b;
     
-    const float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0 - thisColor.r);
+    const float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0f - thisColor.r);
     const float v = thisColor.b + (params.Dv * laplacian.g) + reactionRate - (params.F + params.K) * thisColor.b;
     
- 
     const float4 outColor(u, u, v, 1);
     outTexture.write(outColor, gid);
 }
