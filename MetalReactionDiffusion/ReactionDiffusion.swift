@@ -100,21 +100,21 @@ class ReactionDiffusionBase
             case .k3:
                 reactionDiffusionStruct.k3 = value
             
-        case .F:
-            reactionDiffusionStruct.F = value
-        case .K:
-            reactionDiffusionStruct.K = value
-        case .Du:
-            reactionDiffusionStruct.Du = value
-        case .Dv:
-            reactionDiffusionStruct.Dv = value
-            
-        case .alpha:
-            reactionDiffusionStruct.alpha = value
-        case .beta:
-            reactionDiffusionStruct.beta = value
-        case .gamma:
-            reactionDiffusionStruct.gamma = value
+            case .F:
+                reactionDiffusionStruct.F = value
+            case .K:
+                reactionDiffusionStruct.K = value
+            case .Du:
+                reactionDiffusionStruct.Du = value
+            case .Dv:
+                reactionDiffusionStruct.Dv = value
+                
+            case .alpha:
+                reactionDiffusionStruct.alpha = value
+            case .beta:
+                reactionDiffusionStruct.beta = value
+            case .gamma:
+                reactionDiffusionStruct.gamma = value
         }
     }
     
@@ -135,7 +135,7 @@ class ReactionDiffusionBase
         case .k1, .k2, .k3:
             returnValue = (min: 0.0, max: 2.5)
         case .F, .K:
-            returnValue = (min: 0.0, max: 0.1)
+            returnValue = (min: 0.03, max: 0.08)
         case .Du, .Dv:
             returnValue = (min: 0.0, max: 0.25)
         case .alpha, .beta, .gamma:
@@ -196,10 +196,10 @@ struct ReactionDiffusionParameters
     
     // Gray Scott
     
-    var F: Float = 0.057031
-    var K: Float = 0.063672
-    var Du: Float = 0.155762
-    var Dv: Float = 0.0644
+    var F: Float = 0.0620 // 0.057031
+    var K: Float = 0.0609 //0.063672
+    var Du: Float = 0.164 // 0.155762
+    var Dv: Float = 0.079 // 0.0644
     
     // Belousov-Zhabotinsky
     

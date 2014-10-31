@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE3CC52C1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE3CC52B1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg */; };
+		BE54D9F719FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE54D9F519FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld */; };
 		BE97558219F8E8C00003C748 /* noisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE97558119F8E8C00003C748 /* noisySquare.jpg */; };
 		BE97558819F901960003C748 /* ReactionDiffusionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */; };
 		BE9AA3A319F90A3E006640BF /* ReactionDiffusionImplementations.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A219F90A3E006640BF /* ReactionDiffusionImplementations.swift */; };
 		BE9AA3A519F92808006640BF /* ParameterWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A419F92808006640BF /* ParameterWidget.swift */; };
 		BE9AA3A719F950A6006640BF /* ReactionDiffusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A619F950A6006640BF /* ReactionDiffusion.swift */; };
 		BEA8066519F40E75001C1673 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8066419F40E75001C1673 /* Async.swift */; };
+		BEAC770D1A0207A4004FC852 /* ParameterWidgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAC770C1A0207A4004FC852 /* ParameterWidgetViewController.swift */; };
 		BEB5F0BE19FB6FEA00517D2B /* grayScottNoisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB5F0BD19FB6FEA00517D2B /* grayScottNoisySquare.jpg */; };
 		BEB5F0C019FBB21B00517D2B /* fhnNoisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB5F0BF19FBB21B00517D2B /* fhnNoisySquare.jpg */; };
 		BEB5F0C219FBBB9500517D2B /* belousovNoisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */; };
@@ -37,12 +40,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE3CC52B1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grayScottNoisySquareTwo.jpg; sourceTree = "<group>"; };
+		BE54D9F619FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MetalReactionDiffusion.xcdatamodel; sourceTree = "<group>"; };
 		BE97558119F8E8C00003C748 /* noisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noisySquare.jpg; sourceTree = "<group>"; };
 		BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionEditor.swift; sourceTree = "<group>"; };
 		BE9AA3A219F90A3E006640BF /* ReactionDiffusionImplementations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionImplementations.swift; sourceTree = "<group>"; };
 		BE9AA3A419F92808006640BF /* ParameterWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterWidget.swift; sourceTree = "<group>"; };
 		BE9AA3A619F950A6006640BF /* ReactionDiffusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusion.swift; sourceTree = "<group>"; };
 		BEA8066419F40E75001C1673 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
+		BEAC770C1A0207A4004FC852 /* ParameterWidgetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterWidgetViewController.swift; sourceTree = "<group>"; };
 		BEB5F0BD19FB6FEA00517D2B /* grayScottNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grayScottNoisySquare.jpg; sourceTree = "<group>"; };
 		BEB5F0BF19FBB21B00517D2B /* fhnNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fhnNoisySquare.jpg; sourceTree = "<group>"; };
 		BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = belousovNoisySquare.jpg; sourceTree = "<group>"; };
@@ -89,6 +95,7 @@
 		BE97558419F8FD940003C748 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				BE3CC52B1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg */,
 				BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */,
 				BEB5F0BF19FBB21B00517D2B /* fhnNoisySquare.jpg */,
 				BEB5F0BD19FB6FEA00517D2B /* grayScottNoisySquare.jpg */,
@@ -111,6 +118,7 @@
 			children = (
 				BE97558719F901960003C748 /* ReactionDiffusionEditor.swift */,
 				BE9AA3A419F92808006640BF /* ParameterWidget.swift */,
+				BEAC770C1A0207A4004FC852 /* ParameterWidgetViewController.swift */,
 			);
 			name = widgets;
 			sourceTree = "<group>";
@@ -151,6 +159,7 @@
 				BE97558419F8FD940003C748 /* assets */,
 				BE97558319F8FD8A0003C748 /* async */,
 				BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */,
+				BE54D9F519FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld */,
 				BEB6A4F219F21FCD00C158C8 /* ViewController.swift */,
 				BEB6A4F419F21FCD00C158C8 /* Main.storyboard */,
 				BEB6A4F719F21FCD00C158C8 /* Images.xcassets */,
@@ -273,6 +282,7 @@
 				BE97558219F8E8C00003C748 /* noisySquare.jpg in Resources */,
 				BEB6A4F819F21FCD00C158C8 /* Images.xcassets in Resources */,
 				BEB634CB19F9664C00B4E24F /* hamburger.png in Resources */,
+				BE3CC52C1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg in Resources */,
 				BEB5F0C019FBB21B00517D2B /* fhnNoisySquare.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,10 +303,12 @@
 			files = (
 				BE9AA3A719F950A6006640BF /* ReactionDiffusion.swift in Sources */,
 				BEA8066519F40E75001C1673 /* Async.swift in Sources */,
+				BEAC770D1A0207A4004FC852 /* ParameterWidgetViewController.swift in Sources */,
 				BE97558819F901960003C748 /* ReactionDiffusionEditor.swift in Sources */,
 				BE9AA3A519F92808006640BF /* ParameterWidget.swift in Sources */,
 				BEB6A51119F2214900C158C8 /* Shaders.metal in Sources */,
 				BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */,
+				BE54D9F719FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld in Sources */,
 				BE9AA3A319F90A3E006640BF /* ReactionDiffusionImplementations.swift in Sources */,
 				BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */,
 			);
@@ -512,6 +524,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BE54D9F519FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BE54D9F619FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodel */,
+			);
+			currentVersion = BE54D9F619FEFD6D008A37EE /* MetalReactionDiffusion.xcdatamodel */;
+			path = MetalReactionDiffusion.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BEB6A4E319F21FCD00C158C8 /* Project object */;
 }

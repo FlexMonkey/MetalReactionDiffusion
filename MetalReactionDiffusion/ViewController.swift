@@ -9,10 +9,13 @@
 //  Thanks to https://twitter.com/steipete/status/473952933684330497
 //  Thanks to http://metalbyexample.com/textures-and-samplers/
 //  Thanks to http://metalbyexample.com/introduction-to-compute/
+//
+//  Thanks to http://jamesonquave.com/blog/core-data-in-swift-tutorial-part-1/
 
 import UIKit
 import Metal
 import QuartzCore
+import CoreData
 
 class ViewController: UIViewController
 {
@@ -27,7 +30,7 @@ class ViewController: UIViewController
     let bitsPerComponent = UInt(8)
     let bitsPerPixel:UInt = 32
     let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
-    
+     
     let bytesPerRow = UInt(4 * 640)
     let providerLength = Int(640 * 640 * 4) * sizeof(UInt8)
     var imageBytes = [UInt8](count: Int(640 * 640 * 4), repeatedValue: 0)
@@ -55,15 +58,35 @@ class ViewController: UIViewController
     var reactionDiffusionModel: ReactionDiffusion = GrayScott()
     var requestedReactionDiffusionModel: ReactionDiffusionModels?
     
+    lazy var managedObjectContext : NSManagedObjectContext? = {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        if let managedObjectContext = appDelegate.managedObjectContext {
+            return managedObjectContext
+        }
+        else {
+            return nil
+        }
+        }()
+    
     override func viewDidLoad()
     {
+        reactionDiffusionModel = FitzhughNagumo()
+        reactionDiffusionModel.reactionDiffusionStruct.timestep = 0.02
+        reactionDiffusionModel.reactionDiffusionStruct.a0 = 0.664062
+        reactionDiffusionModel.reactionDiffusionStruct.a1 = 0.451172
+        reactionDiffusionModel.reactionDiffusionStruct.epsilon = 0.136719
+        reactionDiffusionModel.reactionDiffusionStruct.delta = 4.0
+        reactionDiffusionModel.reactionDiffusionStruct.k1 = 1.645508
+        reactionDiffusionModel.reactionDiffusionStruct.k2 = 0.0097
+        reactionDiffusionModel.reactionDiffusionStruct.k3 = 2.2314
+        
         super.viewDidLoad()
 
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         
         view.addSubview(imageView)
         view.addSubview(editor)
-        
+
         editor.reactionDiffusionModel = reactionDiffusionModel
         editor.addTarget(self, action: "editorChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
         editor.addTarget(self, action: "resetSimulationHandler", forControlEvents: UIControlEvents.ResetSimulation)
@@ -146,7 +169,7 @@ class ViewController: UIViewController
             }
             
             let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
-            println("\(fps) fps")
+            // println("\(fps) fps")
             self.runTime = CFAbsoluteTimeGetCurrent()
             
             self.run()

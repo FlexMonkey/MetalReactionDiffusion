@@ -8,11 +8,27 @@
 
 import UIKit
 
-class ParameterWidget: UIControl
+class ParameterWidget: UIControl, UIPopoverControllerDelegate
 {
     let label = UILabel(frame: CGRectZero)
     let slider = UISlider(frame: CGRectZero)
 
+    let parameterWidgetViewController: ParameterWidgetViewController
+    let popoverController: UIPopoverController
+    
+    override init(frame: CGRect)
+    {
+        parameterWidgetViewController = ParameterWidgetViewController()
+        popoverController =  UIPopoverController(contentViewController: parameterWidgetViewController)
+        
+        super.init(frame: frame)
+    }
+
+    required init(coder aDecoder: NSCoder)
+    {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMoveToSuperview()
     {
         label.textColor = UIColor.whiteColor()
@@ -28,6 +44,32 @@ class ParameterWidget: UIControl
         addSubview(slider)
         
         slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
+        parameterWidgetViewController.slider.addTarget(self, action: "bigSliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
+
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: "longHoldHandler:")
+        addGestureRecognizer(longPress)
+    }
+
+    func longHoldHandler(recognizer: UILongPressGestureRecognizer)
+    {
+        if recognizer.state == UIGestureRecognizerState.Began
+        {
+            if let rootController = UIApplication.sharedApplication().keyWindow!.rootViewController?
+            {
+                var popupSource = layer.frame
+                popupSource.origin.x += superview!.frame.origin.x
+                popupSource.origin.y += superview!.frame.origin.y
+         
+                popoverController.presentPopoverFromRect(popupSource, inView: rootController.view, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+            }
+        }
+    }
+    
+    func bigSliderChangeHandler()
+    {
+        slider.value = parameterWidgetViewController.slider.value
+        sliderChangeHandler()
     }
     
     func sliderChangeHandler()
@@ -60,6 +102,7 @@ class ParameterWidget: UIControl
         didSet
         {
             slider.value = value
+            parameterWidgetViewController.slider.value = value
             popoulateLabel()
         }
     }
@@ -68,6 +111,7 @@ class ParameterWidget: UIControl
     {
         didSet
         {
+            parameterWidgetViewController.slider.minimumValue = minimumValue
             slider.minimumValue = minimumValue
         }
     }
@@ -76,6 +120,7 @@ class ParameterWidget: UIControl
     {
         didSet
         {
+            parameterWidgetViewController.slider.maximumValue = maximumValue
             slider.maximumValue = maximumValue
         }
     }

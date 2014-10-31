@@ -148,13 +148,13 @@ class ReactionDiffusionEditor: UIControl
             widget.reactionDiffusionFieldName = fieldName
             
             widget.addTarget(self, action: "widgetChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
-            
+ 
             addSubview(widget)
         }
         
         setNeedsLayout()
     }
-    
+
     func widgetChangeHandler(widget: ParameterWidget)
     {
         if let fieldName = widget.reactionDiffusionFieldName
