@@ -48,6 +48,21 @@ class ReactionDiffusionEntity: NSManagedObject {
         }
         
         // populate numeric params...
+        returnObject.reactionDiffusionStruct.timestep = Float(entity.timestep)
+        returnObject.reactionDiffusionStruct.a0 = Float(entity.a0)
+        returnObject.reactionDiffusionStruct.a1 = Float(entity.a1)
+        returnObject.reactionDiffusionStruct.epsilon = Float(entity.epsilon)
+        returnObject.reactionDiffusionStruct.delta = Float(entity.delta)
+        returnObject.reactionDiffusionStruct.k1 = Float(entity.k1)
+        returnObject.reactionDiffusionStruct.k2 = Float(entity.k2)
+        returnObject.reactionDiffusionStruct.k3 = Float(entity.k3)
+        returnObject.reactionDiffusionStruct.F = Float(entity.f)
+        returnObject.reactionDiffusionStruct.K = Float(entity.k)
+        returnObject.reactionDiffusionStruct.Du = Float(entity.du)
+        returnObject.reactionDiffusionStruct.Dv = Float(entity.dv)
+        returnObject.reactionDiffusionStruct.alpha = Float(entity.alpha)
+        returnObject.reactionDiffusionStruct.beta = Float(entity.beta)
+        returnObject.reactionDiffusionStruct.gamma = Float(entity.gamma)
         
         return returnObject
     }

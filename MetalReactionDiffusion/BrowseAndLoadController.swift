@@ -11,6 +11,7 @@ import UIKit
 class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
 {
     var collectionView: UICollectionView!
+    var selectedEntity: ReactionDiffusionEntity?
     
     var fetchResults:[ReactionDiffusionEntity] = [ReactionDiffusionEntity]()
     {
@@ -25,6 +26,8 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     
     override func viewDidLoad()
     {
+        selectedEntity = nil
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .Vertical
         layout.itemSize = CGSize(width: 150, height: 150)
@@ -45,6 +48,22 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return fetchResults.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
+    {
+        selectedEntity = fetchResults[indexPath.item]
+        
+        if let _popoverPresentationController = popoverPresentationController
+        {
+            if let _delegate = _popoverPresentationController.delegate
+            {
+               _delegate.popoverPresentationControllerDidDismissPopover!(_popoverPresentationController)
+            }
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+        
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell

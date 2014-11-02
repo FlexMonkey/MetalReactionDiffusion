@@ -17,7 +17,7 @@ import Metal
 import QuartzCore
 import CoreData
 
-class ViewController: UIViewController
+class ViewController: UIViewController, UIPopoverControllerDelegate
 {
     let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.rawValue | CGImageAlphaInfo.PremultipliedLast.rawValue)
     let renderingIntent = kCGRenderingIntentDefault
@@ -48,6 +48,7 @@ class ViewController: UIViewController
     var textureB: MTLTexture!
     var useTextureAForInput = true
     var resetSimulationFlag = false
+    var newModelLoadedFlag = false
 
     var image:UIImage!
     var runTime = CFAbsoluteTimeGetCurrent()
@@ -61,12 +62,22 @@ class ViewController: UIViewController
     let appDelegate: AppDelegate
     let managedObjectContext: NSManagedObjectContext
     
+    let browseAndLoadController: BrowseAndLoadController
+    let popoverController: UIPopoverController
+    
     required init(coder aDecoder: NSCoder)
     {
         appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         managedObjectContext = appDelegate.managedObjectContext!
         
+        browseAndLoadController = BrowseAndLoadController()
+        popoverController = UIPopoverController(contentViewController: browseAndLoadController)
+        
         super.init(coder: aDecoder)
+
+        browseAndLoadController.preferredContentSize = CGSize(width: 640, height: 480)
+
+        popoverController.delegate = self
     }
 
     
@@ -127,27 +138,24 @@ class ViewController: UIViewController
     func loadModel()
     {
         let fetchRequest = NSFetchRequest(entityName: "ReactionDiffusionEntity")
+        
         if let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [ReactionDiffusionEntity]
         {
-            /*
-            for entity in fetchResults
-            {
-                println("------")
-                println(ReactionDiffusionEntity.createInstanceFromEntity(entity))
-                println(entity.model)
-            }
-            */
-            
-            println("LOAD \(fetchResults.count)")
-            
-            let browseAndLoadController = BrowseAndLoadController()
-   
-            browseAndLoadController.preferredContentSize = CGSize(width: 640, height: 480)
-            let popoverController = UIPopoverController(contentViewController: browseAndLoadController)
-            
+            println("LOAD \(fetchResults.count)") // display message if count == 0
+
             popoverController.presentPopoverFromRect(view.frame, inView: view, permittedArrowDirections: UIPopoverArrowDirection.allZeros, animated: true)
-            
+        
             browseAndLoadController.fetchResults = fetchResults
+        }
+    }
+    
+    func popoverControllerDidDismissPopover(popoverController: UIPopoverController)
+    {
+        if let _selectedEntity = browseAndLoadController.selectedEntity
+        {
+            reactionDiffusionModel = ReactionDiffusionEntity.createInstanceFromEntity(_selectedEntity)
+            
+            newModelLoadedFlag = true
         }
     }
     
@@ -177,6 +185,18 @@ class ViewController: UIViewController
 
             if self.useTextureAForInput
             {
+                if self.newModelLoadedFlag
+                {
+                    self.newModelLoadedFlag = false
+                    
+                    self.editor.reactionDiffusionModel = self.reactionDiffusionModel
+                    
+                    let kernelFunction = self.defaultLibrary.newFunctionWithName(self.reactionDiffusionModel.shaderName)
+                    self.pipelineState = self.device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
+                    
+                    self.resetSimulationFlag = true
+                }
+                
                 if self.resetSimulationFlag
                 {
                     self.resetSimulationFlag = false
@@ -186,9 +206,9 @@ class ViewController: UIViewController
                 
                 if self.requestedReactionDiffusionModel != nil
                 {
-                    let foo = self.requestedReactionDiffusionModel!
+                    let _requestedReactionDiffusionModel = self.requestedReactionDiffusionModel!
                     
-                    switch foo
+                    switch _requestedReactionDiffusionModel
                     {
                         case .GrayScott:
                             self.reactionDiffusionModel = GrayScott()
