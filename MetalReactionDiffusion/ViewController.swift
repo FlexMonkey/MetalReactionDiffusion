@@ -58,6 +58,18 @@ class ViewController: UIViewController
     var reactionDiffusionModel: ReactionDiffusion = GrayScott()
     var requestedReactionDiffusionModel: ReactionDiffusionModels?
 
+    let appDelegate: AppDelegate
+    let managedObjectContext: NSManagedObjectContext
+    
+    required init(coder aDecoder: NSCoder)
+    {
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        managedObjectContext = appDelegate.managedObjectContext!
+        
+        super.init(coder: aDecoder)
+    }
+
+    
     override func viewDidLoad()
     {
         reactionDiffusionModel = FitzhughNagumo()
@@ -69,7 +81,7 @@ class ViewController: UIViewController
         reactionDiffusionModel.reactionDiffusionStruct.k1 = 1.645508
         reactionDiffusionModel.reactionDiffusionStruct.k2 = 0.0097
         reactionDiffusionModel.reactionDiffusionStruct.k3 = 2.2314
-        
+  
         super.viewDidLoad()
 
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
@@ -81,7 +93,9 @@ class ViewController: UIViewController
         editor.addTarget(self, action: "editorChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
         editor.addTarget(self, action: "resetSimulationHandler", forControlEvents: UIControlEvents.ResetSimulation)
         editor.addTarget(self, action: "modelChangedHandler:", forControlEvents: UIControlEvents.ModelChanged)
-
+        editor.addTarget(self, action: "saveModel", forControlEvents: UIControlEvents.SaveModel)
+        editor.addTarget(self, action: "loadModel", forControlEvents: UIControlEvents.LoadModel)
+        
         setUpMetal()
     }
 
@@ -98,6 +112,45 @@ class ViewController: UIViewController
         reactionDiffusionModel.reactionDiffusionStruct = value.reactionDiffusionModel.reactionDiffusionStruct
     }
     
+    func resetSimulationHandler()
+    {
+        resetSimulationFlag = true
+    }
+    
+    func saveModel()
+    {
+        var newEntity = ReactionDiffusionEntity.createInManagedObjectContext(managedObjectContext, model: reactionDiffusionModel.model.rawValue, reactionDiffusionStruct: reactionDiffusionModel.reactionDiffusionStruct, image: self.imageView.image!)
+        
+       appDelegate.saveContext()
+    }
+    
+    func loadModel()
+    {
+        let fetchRequest = NSFetchRequest(entityName: "ReactionDiffusionEntity")
+        if let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [ReactionDiffusionEntity]
+        {
+            /*
+            for entity in fetchResults
+            {
+                println("------")
+                println(ReactionDiffusionEntity.createInstanceFromEntity(entity))
+                println(entity.model)
+            }
+            */
+            
+            println("LOAD \(fetchResults.count)")
+            
+            let browseAndLoadController = BrowseAndLoadController()
+   
+            browseAndLoadController.preferredContentSize = CGSize(width: 640, height: 480)
+            let popoverController = UIPopoverController(contentViewController: browseAndLoadController)
+            
+            popoverController.presentPopoverFromRect(view.frame, inView: view, permittedArrowDirections: UIPopoverArrowDirection.allZeros, animated: true)
+            
+            browseAndLoadController.fetchResults = fetchResults
+        }
+    }
+    
     func setUpMetal()
     {
         device = MTLCreateSystemDefaultDevice()
@@ -112,11 +165,6 @@ class ViewController: UIViewController
         run()
     }
 
-    func resetSimulationHandler()
-    {
-        resetSimulationFlag = true
-    }
-    
     final func run()
     {
         Async.background()
@@ -223,8 +271,7 @@ class ViewController: UIViewController
         commandEncoder.endEncoding()
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
-        
-        
+  
         if !useTextureAForInput
         {
             textureB.getBytes(&imageBytes, bytesPerRow: Int(bytesPerRow), fromRegion: region, mipmapLevel: 0)

@@ -54,19 +54,19 @@ struct ReactionDiffusionParameters
         const uint2 westIndex(gid.x - 1, gid.y);
         const uint2 eastIndex(gid.x + 1, gid.y);
         
-        const float3 northColor = inTexture.read(northIndex).rgb;
-        const float3 southColor = inTexture.read(southIndex).rgb;
-        const float3 westColor = inTexture.read(westIndex).rgb;
-        const float3 eastColor = inTexture.read(eastIndex).rgb;
+        const float2 northColor = inTexture.read(northIndex).rb;
+        const float2 southColor = inTexture.read(southIndex).rb;
+        const float2 westColor = inTexture.read(westIndex).rb;
+        const float2 eastColor = inTexture.read(eastIndex).rb;
         
-        const float3 thisColor = inTexture.read(gid).rgb;
+        const float2 thisColor = inTexture.read(gid).rb;
         
-        const float2 laplacian = (northColor.rb + southColor.rb + westColor.rb + eastColor.rb) - (4.0 * thisColor.rb);
+        const float2 laplacian = (northColor.rg + southColor.rg + westColor.rg + eastColor.rg) - (4.0 * thisColor.rg);
         const float laplacian_a = laplacian.r;
         const float laplacian_b = laplacian.g;
         
         const float a = thisColor.r;
-        const float b = thisColor.b;
+        const float b = thisColor.g;
 
         const float delta_a = (params.k1 * a) - (params.k2 * a * a) - (a * a * a) - b + laplacian_a;
         const float delta_b = params.epsilon * (params.k3 * a - params.a1 * b - params.a0) + params.delta * laplacian_b;
@@ -87,20 +87,21 @@ kernel void grayScottShader(texture2d<float, access::read> inTexture [[texture(0
     const uint2 southIndex(gid.x, gid.y + 1);
     const uint2 westIndex(gid.x - 1, gid.y);
     const uint2 eastIndex(gid.x + 1, gid.y);
+
+    const float2 northColor = inTexture.read(northIndex).rb;
+    const float2 southColor = inTexture.read(southIndex).rb;
+    const float2 westColor = inTexture.read(westIndex).rb;
+    const float2 eastColor = inTexture.read(eastIndex).rb;
+ 
+    const float2 thisColor = inTexture.read(gid).rb;
+
+    const float2 laplacian = (northColor.rg + southColor.rg + westColor.rg + eastColor.rg) - (4.0f * thisColor.rg);
     
-    const float3 northColor = inTexture.read(northIndex).rgb;
-    const float3 southColor = inTexture.read(southIndex).rgb;
-    const float3 westColor = inTexture.read(westIndex).rgb;
-    const float3 eastColor = inTexture.read(eastIndex).rgb;
-                    
-    const float3 thisColor = inTexture.read(gid).rgb;
+    const float reactionRate = thisColor.r * thisColor.g * thisColor.g;
     
-    const float2 laplacian = (northColor.rb + southColor.rb + westColor.rb + eastColor.rb) - (4.0f * thisColor.rb);
-    
-    const float reactionRate = thisColor.r * thisColor.b * thisColor.b;
-    
-    const float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0f - thisColor.r);
-    const float v = thisColor.b + (params.Dv * laplacian.g) + reactionRate - (params.F + params.K) * thisColor.b;
+    float u = thisColor.r + (params.Du * laplacian.r) - reactionRate + params.F * (1.0f - thisColor.r);
+    float v = thisColor.g + (params.Dv * laplacian.g) + reactionRate - (params.F + params.K) * thisColor.g;
+
     
     const float4 outColor(u, u, v, 1);
     outTexture.write(outColor, gid);

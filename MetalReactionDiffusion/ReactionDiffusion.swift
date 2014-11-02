@@ -135,7 +135,7 @@ class ReactionDiffusionBase
         case .k1, .k2, .k3:
             returnValue = (min: 0.0, max: 2.5)
         case .F, .K:
-            returnValue = (min: 0.03, max: 0.08)
+            returnValue = (min: 0.02, max: 0.08)
         case .Du, .Dv:
             returnValue = (min: 0.0, max: 0.25)
         case .alpha, .beta, .gamma:

@@ -14,6 +14,7 @@ class ReactionDiffusionEditor: UIControl
     let toolbar = UIToolbar(frame: CGRectZero)
     let menuButton = UIButton(frame: CGRectZero)
     let label = UILabel(frame: CGRectZero)
+    var requestedReactionDiffusionModel : ReactionDiffusionModels?
 
     override func didMoveToSuperview()
     {
@@ -66,15 +67,21 @@ class ReactionDiffusionEditor: UIControl
     {
         // work in progress! Refactor to create once, draw list of possible models from seperate class....
         
-        var alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         let fitzhughNagumoAction = UIAlertAction(title: ReactionDiffusionModels.FitzHughNagumo.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
         let grayScottAction = UIAlertAction(title: ReactionDiffusionModels.GrayScott.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
         let belousovZhabotinskyAction = UIAlertAction(title: ReactionDiffusionModels.BelousovZhabotinsky.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
         
+        let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: saveActionHandler)
+        let loadAction = UIAlertAction(title: "Load...", style: UIAlertActionStyle.Default, handler: loadActionHandler)
+
         alertController.addAction(belousovZhabotinskyAction)
         alertController.addAction(fitzhughNagumoAction)
         alertController.addAction(grayScottAction)
+        
+        alertController.addAction(saveAction)
+        alertController.addAction(loadAction)
         
         if let viewController = UIApplication.sharedApplication().keyWindow!.rootViewController
         {
@@ -87,21 +94,27 @@ class ReactionDiffusionEditor: UIControl
                 
                 popoverPresentationController.sourceRect = CGRect(x: xx, y: yy, width: menuButton.frame.width, height: menuButton.frame.height)
                 popoverPresentationController.sourceView = viewController.view
-                
-                popoverPresentationController
-                
+
                 viewController.presentViewController(alertController, animated: true, completion: nil)
             }
         }
     }
-    
-    var requestedReactionDiffusionModel : ReactionDiffusionModels?
-    
+
     func reactionDiffusionModelChangeHandler(value: UIAlertAction!) -> Void
     {
         requestedReactionDiffusionModel = ReactionDiffusionModels(rawValue: value.title)
         
         sendActionsForControlEvents(UIControlEvents.ModelChanged)
+    }
+    
+    func saveActionHandler(value: UIAlertAction!) -> Void
+    {
+        sendActionsForControlEvents(UIControlEvents.SaveModel)
+    }
+    
+    func loadActionHandler(value: UIAlertAction!) -> Void
+    {
+        sendActionsForControlEvents(UIControlEvents.LoadModel)
     }
     
     func resetSimulation()
@@ -187,4 +200,6 @@ extension UIControlEvents
 {
     static let ResetSimulation: UIControlEvents = UIControlEvents(0x01000000)
     static let ModelChanged: UIControlEvents = UIControlEvents(0x02000000)
+    static let SaveModel: UIControlEvents = UIControlEvents(0x04000000)
+    static let LoadModel: UIControlEvents = UIControlEvents(0x08000000)
 }
