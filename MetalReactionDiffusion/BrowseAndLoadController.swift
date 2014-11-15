@@ -125,11 +125,11 @@ class ReactionDiffusionEntityRenderer: UICollectionViewCell
     {
         didSet
         {
-            if let _entity = reactionDiffusionEntity
+            if let _reactionDiffusionEntity = reactionDiffusionEntity
             {
-                label.text = _entity.model
+                label.text = _reactionDiffusionEntity.model
             
-                let thumbnail = UIImage(data: _entity.imageData as NSData)
+                let thumbnail = UIImage(data: _reactionDiffusionEntity.imageData as NSData)
             
                 imageView.image = thumbnail
             }

@@ -141,6 +141,8 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
         
         if let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [ReactionDiffusionEntity]
         {
+            // retrieved fetchResults.count records....
+            
             println("LOAD \(fetchResults.count)") // display message if count == 0
 
             popoverController.presentPopoverFromRect(view.frame, inView: view, permittedArrowDirections: UIPopoverArrowDirection.allZeros, animated: true)

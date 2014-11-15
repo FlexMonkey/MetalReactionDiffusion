@@ -31,6 +31,7 @@ class ParameterWidget: UIControl, UIPopoverControllerDelegate
     
     override func didMoveToSuperview()
     {
+
         label.textColor = UIColor.whiteColor()
         layer.backgroundColor = UIColor.darkGrayColor().CGColor
         
@@ -46,8 +47,10 @@ class ParameterWidget: UIControl, UIPopoverControllerDelegate
         slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
         parameterWidgetViewController.slider.addTarget(self, action: "bigSliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
 
-        
+
         let longPress = UILongPressGestureRecognizer(target: self, action: "longHoldHandler:")
+        longPress.minimumPressDuration = 0.75
+        longPress.allowableMovement = 7.5
         addGestureRecognizer(longPress)
     }
 
@@ -61,7 +64,7 @@ class ParameterWidget: UIControl, UIPopoverControllerDelegate
                 popupSource.origin.x += superview!.frame.origin.x
                 popupSource.origin.y += superview!.frame.origin.y
          
-                popoverController.presentPopoverFromRect(popupSource, inView: rootController.view, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+                popoverController.presentPopoverFromRect(popupSource, inView: rootController.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
             }
         }
     }

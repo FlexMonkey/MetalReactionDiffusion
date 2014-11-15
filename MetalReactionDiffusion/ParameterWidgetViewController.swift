@@ -14,9 +14,9 @@ class ParameterWidgetViewController: UIViewController {
     
     override func viewDidLoad()
     {
-        if let prefWidth = UIApplication.sharedApplication().keyWindow?.layer.frame.height
+        if let prefWidth = UIApplication.sharedApplication().keyWindow?.layer.frame.width
         {
-            preferredContentSize = CGSize(width: prefWidth - 40, height: 55)
+            preferredContentSize = CGSize(width: prefWidth - 10, height: 55)
         }
         
         view.addSubview(slider)
