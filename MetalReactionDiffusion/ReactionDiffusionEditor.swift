@@ -74,7 +74,7 @@ class ReactionDiffusionEditor: UIControl
         let belousovZhabotinskyAction = UIAlertAction(title: ReactionDiffusionModels.BelousovZhabotinsky.rawValue, style: UIAlertActionStyle.Default, handler: reactionDiffusionModelChangeHandler)
         
         let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: saveActionHandler)
-        let loadAction = UIAlertAction(title: "Load...", style: UIAlertActionStyle.Default, handler: loadActionHandler)
+        let loadAction = UIAlertAction(title: "Browse and Load", style: UIAlertActionStyle.Default, handler: loadActionHandler)
 
         alertController.addAction(belousovZhabotinskyAction)
         alertController.addAction(fitzhughNagumoAction)

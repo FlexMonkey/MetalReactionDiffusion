@@ -12,6 +12,9 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
 {
     var collectionView: UICollectionView!
     var selectedEntity: ReactionDiffusionEntity?
+    let blurOverlay = UIVisualEffectView(effect: UIBlurEffect())
+    let showDeleted = UISwitch(frame: CGRectZero)
+    let showDeletedLabel = UILabel(frame: CGRectZero)
     
     var fetchResults:[ReactionDiffusionEntity] = [ReactionDiffusionEntity]()
     {
@@ -41,8 +44,15 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.registerClass(ReactionDiffusionEntityRenderer.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        
+        showDeleted.tintColor = UIColor.darkGrayColor()
+        showDeletedLabel.text = "Show recently deleted"
         
         view.addSubview(collectionView)
+        view.addSubview(blurOverlay)
+        view.addSubview(showDeleted)
+        view.addSubview(showDeletedLabel)
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -77,7 +87,14 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     
     override func viewDidLayoutSubviews()
     {
-        collectionView.frame = view.bounds.rectByInsetting(dx: 20, dy: 20)
+        collectionView.frame = view.bounds.rectByInsetting(dx: 10, dy: 10)
+        
+        blurOverlay.frame = CGRect(x: 0, y: view.frame.height - 40, width: view.frame.width, height: 40)
+
+        let showDeletedOffset = (40.0 - showDeleted.frame.height) / 2
+        showDeleted.frame = blurOverlay.frame.rectByInsetting(dx: showDeletedOffset, dy: showDeletedOffset)
+        
+        showDeletedLabel.frame = blurOverlay.frame.rectByInsetting(dx: showDeleted.frame.width + showDeletedOffset + 5, dy: 0)
         
         collectionView.reloadData()
     }
