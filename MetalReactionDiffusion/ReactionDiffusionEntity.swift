@@ -29,6 +29,8 @@ class ReactionDiffusionEntity: NSManagedObject {
     @NSManaged var beta: NSNumber
     @NSManaged var gamma: NSNumber
     @NSManaged var imageData: NSData
+    
+    var pendingDelete: Bool = false
 
     
     class func createInstanceFromEntity(entity: ReactionDiffusionEntity) -> ReactionDiffusion!
