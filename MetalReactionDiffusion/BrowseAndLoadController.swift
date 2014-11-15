@@ -10,7 +10,7 @@ import UIKit
 
 class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
 {
-    var collectionView: UICollectionView!
+    var collectionViewWidget: UICollectionView!
     var selectedEntity: ReactionDiffusionEntity?
     let blurOverlay = UIVisualEffectView(effect: UIBlurEffect())
     let showDeleted = UISwitch(frame: CGRectZero)
@@ -20,7 +20,7 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     {
         didSet
         {
-            if let _collectionView = collectionView
+            if let _collectionView = collectionViewWidget
             {
                 _collectionView.reloadData()
             }
@@ -37,22 +37,61 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
         layout.minimumLineSpacing = 30
         layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         
-        collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
+        collectionViewWidget = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         
-        collectionView.backgroundColor = UIColor.clearColor()
+        collectionViewWidget.backgroundColor = UIColor.clearColor()
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.registerClass(ReactionDiffusionEntityRenderer.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        collectionViewWidget.delegate = self
+        collectionViewWidget.dataSource = self
+        collectionViewWidget.registerClass(ReactionDiffusionEntityRenderer.self, forCellWithReuseIdentifier: "Cell")
+        collectionViewWidget.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         
         showDeleted.tintColor = UIColor.darkGrayColor()
         showDeletedLabel.text = "Show recently deleted"
         
-        view.addSubview(collectionView)
+        let longPress = UILongPressGestureRecognizer(target: self, action: "longPressHandler")
+        collectionViewWidget.addGestureRecognizer(longPress)
+        
+        view.addSubview(collectionViewWidget)
         view.addSubview(blurOverlay)
         view.addSubview(showDeleted)
         view.addSubview(showDeletedLabel)
+    }
+    
+    var longPressTargetCell: UICollectionViewCell?
+    
+    func longPressHandler()
+    {
+        println("long press!")
+        
+        if let _longPressTargetCell = longPressTargetCell
+        {
+            let contextMenuController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default, handler: deleteItem)
+            
+            contextMenuController.addAction(deleteAction)
+            
+            if let popoverPresentationController = contextMenuController.popoverPresentationController
+            {
+                popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirection.Down
+                popoverPresentationController.sourceRect = _longPressTargetCell.frame.rectByOffsetting(dx: collectionViewWidget.frame.origin.x, dy: collectionViewWidget.frame.origin.y - collectionViewWidget.contentOffset.y)
+                popoverPresentationController.sourceView = view
+                
+                presentViewController(contextMenuController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func deleteItem(value: UIAlertAction!) -> Void
+    {
+        
+    }
+    
+    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath)
+    {
+        println("touch down at \(indexPath)")
+        
+        longPressTargetCell = self.collectionView(collectionViewWidget, cellForItemAtIndexPath: indexPath)
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -87,7 +126,7 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     
     override func viewDidLayoutSubviews()
     {
-        collectionView.frame = view.bounds.rectByInsetting(dx: 10, dy: 10)
+        collectionViewWidget.frame = view.bounds.rectByInsetting(dx: 10, dy: 10)
         
         blurOverlay.frame = CGRect(x: 0, y: view.frame.height - 40, width: view.frame.width, height: 40)
 
@@ -96,7 +135,7 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
         
         showDeletedLabel.frame = blurOverlay.frame.rectByInsetting(dx: showDeleted.frame.width + showDeletedOffset + 5, dy: 0)
         
-        collectionView.reloadData()
+        collectionViewWidget.reloadData()
     }
 }
 
