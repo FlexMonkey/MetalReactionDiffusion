@@ -118,6 +118,7 @@ class ReactionDiffusionBase
         }
     }
     
+    
     func getMinMaxForFieldName(fieldName: ReactionDiffusionFieldNames) -> (min: Float, max: Float)
     {
         var returnValue: (min: Float, max: Float) = (min: 0.0, max: 0.0)

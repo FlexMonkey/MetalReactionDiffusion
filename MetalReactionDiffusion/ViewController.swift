@@ -177,8 +177,24 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
         run()
     }
 
+    var isRunning: Bool = true
+    {
+        didSet
+        {
+            if isRunning && oldValue != isRunning
+            {
+                self.run()
+            }
+        }
+    }
+    
     final func run()
     {
+        if !isRunning
+        {
+            return
+        }
+        
         Async.background()
         {
             self.image = self.applyFilter()
@@ -231,7 +247,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
             }
    
             let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
-            // println("\(fps) fps")
+            println("\(fps) fps")
             self.runTime = CFAbsoluteTimeGetCurrent()
             
             self.run()

@@ -44,7 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillResignActive(application: UIApplication)
     {
-        // TODO - pause!!!
+        if let viewController = window?.rootViewController as? ViewController
+        {
+            viewController.isRunning = false
+        }
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
@@ -58,7 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationDidBecomeActive(application: UIApplication)
     {
-        // TODO - unpause!!!
+        if let viewController = window?.rootViewController as? ViewController
+        {
+            viewController.isRunning = true
+        }
     }
     
     func applicationWillTerminate(application: UIApplication)
@@ -134,8 +140,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data Saving support
     
     func saveContext () {
-        
-        println("saveContext!")
         
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
