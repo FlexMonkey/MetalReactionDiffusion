@@ -30,6 +30,8 @@
 		BEB6A4FB19F21FCD00C158C8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEB6A4F919F21FCD00C158C8 /* LaunchScreen.xib */; };
 		BEB6A50719F21FCD00C158C8 /* MetalReactionDiffusionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A50619F21FCD00C158C8 /* MetalReactionDiffusionTests.swift */; };
 		BEB6A51119F2214900C158C8 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = BEB6A51019F2214900C158C8 /* Shaders.metal */; };
+		BED542D31A1878520092C272 /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED542D21A1878520092C272 /* Presets.swift */; };
+		BEDB3F651A1892B4002CA9DF /* preset.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEDB3F641A1892B4002CA9DF /* preset.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 		BEB6A50519F21FCD00C158C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEB6A50619F21FCD00C158C8 /* MetalReactionDiffusionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalReactionDiffusionTests.swift; sourceTree = "<group>"; };
 		BEB6A51019F2214900C158C8 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		BED542D21A1878520092C272 /* Presets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
+		BEDB3F641A1892B4002CA9DF /* preset.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = preset.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,7 @@
 		BE97558419F8FD940003C748 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				BEDB3F641A1892B4002CA9DF /* preset.jpg */,
 				BE3CC52B1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg */,
 				BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */,
 				BEB5F0BF19FBB21B00517D2B /* fhnNoisySquare.jpg */,
@@ -144,6 +149,7 @@
 			children = (
 				BE9AA3A219F90A3E006640BF /* ReactionDiffusionImplementations.swift */,
 				BE9AA3A619F950A6006640BF /* ReactionDiffusion.swift */,
+				BED542D21A1878520092C272 /* Presets.swift */,
 			);
 			name = reactionDiffusion;
 			sourceTree = "<group>";
@@ -294,6 +300,7 @@
 			files = (
 				BEB5F0C219FBBB9500517D2B /* belousovNoisySquare.jpg in Resources */,
 				BEB5F0BE19FB6FEA00517D2B /* grayScottNoisySquare.jpg in Resources */,
+				BEDB3F651A1892B4002CA9DF /* preset.jpg in Resources */,
 				BEB6A4F619F21FCD00C158C8 /* Main.storyboard in Resources */,
 				BEB6A4FB19F21FCD00C158C8 /* LaunchScreen.xib in Resources */,
 				BE97558219F8E8C00003C748 /* noisySquare.jpg in Resources */,
@@ -328,6 +335,7 @@
 				BEB6A51119F2214900C158C8 /* Shaders.metal in Sources */,
 				BE1E50CD1A0437F8000BD5C1 /* ReactionDiffusionEntity.swift in Sources */,
 				BEB6A4F319F21FCD00C158C8 /* ViewController.swift in Sources */,
+				BED542D31A1878520092C272 /* Presets.swift in Sources */,
 				BE9AA3A319F90A3E006640BF /* ReactionDiffusionImplementations.swift in Sources */,
 				BEB6A4F119F21FCD00C158C8 /* AppDelegate.swift in Sources */,
 				BE1E51021A052976000BD5C1 /* UIImageExtension.swift in Sources */,

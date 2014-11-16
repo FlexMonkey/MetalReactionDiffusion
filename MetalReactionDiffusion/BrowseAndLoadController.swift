@@ -39,26 +39,26 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     
     func populateDataProvider()
     {
-        UIView.animateWithDuration(0.125, animations: {self.collectionViewWidget.alpha = 0}, completion: populateDataProvider_2)
-    }
-    
-    func populateDataProvider_2(value: Bool)
-    {
-        if let _collectionView = collectionViewWidget
+        func populateDataProvider_2(value: Bool)
         {
-            if showDeleted
+            if let _collectionView = collectionViewWidget
             {
-                dataprovider = fetchResults
-            }
-            else
-            {
-                dataprovider = fetchResults.filter({!$0.pendingDelete})
+                if showDeleted
+                {
+                    dataprovider = fetchResults
+                }
+                else
+                {
+                    dataprovider = fetchResults.filter({!$0.pendingDelete})
+                }
+                
+                _collectionView.reloadData()
             }
             
-            _collectionView.reloadData()
+            UIView.animateWithDuration(0.125, animations: {self.collectionViewWidget.alpha = 1})
         }
         
-        UIView.animateWithDuration(0.125, animations: {self.collectionViewWidget.alpha = 1})
+        UIView.animateWithDuration(0.125, animations: {self.collectionViewWidget.alpha = 0}, completion: populateDataProvider_2)
     }
     
     override func viewDidLoad()
@@ -165,7 +165,7 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     {
         selectedEntity = dataprovider[indexPath.item]
-        
+ 
         if let _popoverPresentationController = popoverPresentationController
         {
             if let _delegate = _popoverPresentationController.delegate

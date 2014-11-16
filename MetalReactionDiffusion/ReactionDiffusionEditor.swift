@@ -58,8 +58,9 @@ class ReactionDiffusionEditor: UIControl
         {
             if oldValue == nil || oldValue.model.rawValue != reactionDiffusionModel.model.rawValue
             {
-                createUserInterface()
+                //createUserInterface()
             }
+            createUserInterface()
         }
     }
 
@@ -161,6 +162,7 @@ class ReactionDiffusionEditor: UIControl
             widget.reactionDiffusionFieldName = fieldName
             
             widget.addTarget(self, action: "widgetChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
+            widget.addTarget(self, action: "resetSimulation", forControlEvents: UIControlEvents.ResetSimulation)
  
             addSubview(widget)
         }

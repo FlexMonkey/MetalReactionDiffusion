@@ -46,7 +46,7 @@ class ParameterWidget: UIControl, UIPopoverControllerDelegate
         
         slider.addTarget(self, action: "sliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
         parameterWidgetViewController.slider.addTarget(self, action: "bigSliderChangeHandler", forControlEvents: UIControlEvents.ValueChanged)
-
+        parameterWidgetViewController.slider.addTarget(self, action: "bigSliderTouchUpInsideHandler", forControlEvents: UIControlEvents.TouchUpInside)
 
         let longPress = UILongPressGestureRecognizer(target: self, action: "longHoldHandler:")
         longPress.minimumPressDuration = 0.75
@@ -67,6 +67,11 @@ class ParameterWidget: UIControl, UIPopoverControllerDelegate
                 popoverController.presentPopoverFromRect(popupSource, inView: rootController.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
             }
         }
+    }
+    
+    func bigSliderTouchUpInsideHandler()
+    {
+        sendActionsForControlEvents(UIControlEvents.ResetSimulation)
     }
     
     func bigSliderChangeHandler()

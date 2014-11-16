@@ -31,7 +31,6 @@ class ReactionDiffusionEntity: NSManagedObject {
     @NSManaged var imageData: NSData
     
     var pendingDelete: Bool = false
-
     
     class func createInstanceFromEntity(entity: ReactionDiffusionEntity) -> ReactionDiffusion!
     {
@@ -76,7 +75,7 @@ class ReactionDiffusionEntity: NSManagedObject {
         newItem.model = model
         
         newItem.imageData = UIImageJPEGRepresentation(image.resizeToBoundingSquare(boundingSquareSideLength: 160.0), 0.75)
-        
+ 
         newItem.timestep = reactionDiffusionStruct.timestep
         newItem.a0 = reactionDiffusionStruct.a0
         newItem.a1 = reactionDiffusionStruct.a1

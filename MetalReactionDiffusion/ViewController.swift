@@ -156,6 +156,8 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
         if let _selectedEntity = browseAndLoadController.selectedEntity
         {
             reactionDiffusionModel = ReactionDiffusionEntity.createInstanceFromEntity(_selectedEntity)
+
+            println( "reactionDiffusionModel = \(reactionDiffusionModel.self)")
             
             newModelLoadedFlag = true
         }
@@ -190,7 +192,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
                 if self.newModelLoadedFlag
                 {
                     self.newModelLoadedFlag = false
-                    
+       
                     self.editor.reactionDiffusionModel = self.reactionDiffusionModel
                     
                     let kernelFunction = self.defaultLibrary.newFunctionWithName(self.reactionDiffusionModel.shaderName)
@@ -227,7 +229,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
                     self.pipelineState = self.device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
                 }
             }
-            
+   
             let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
             // println("\(fps) fps")
             self.runTime = CFAbsoluteTimeGetCurrent()
