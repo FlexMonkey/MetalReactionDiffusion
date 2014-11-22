@@ -52,6 +52,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
 
     var image:UIImage!
     var runTime = CFAbsoluteTimeGetCurrent()
+    var errorFlag:Bool = false
     
     var threadGroupCount:MTLSize!
     var threadGroups: MTLSize!
@@ -162,19 +163,30 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
             reactionDiffusionModel = ReactionDiffusionEntity.createInstanceFromEntity(_selectedEntity)
         }
     }
-    
+
     func setUpMetal()
     {
         device = MTLCreateSystemDefaultDevice()
         
-        defaultLibrary = device.newDefaultLibrary()
-        commandQueue = device.newCommandQueue()
+        println("device = \(device)")
         
-        let kernelFunction = defaultLibrary.newFunctionWithName(reactionDiffusionModel.shaderName)
-        pipelineState = device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
-        
-        setUpTexture()
-        run()
+        if device == nil
+        {
+            errorFlag = true
+            
+    
+        }
+        else
+        {
+            defaultLibrary = device.newDefaultLibrary()
+            commandQueue = device.newCommandQueue()
+            
+            let kernelFunction = defaultLibrary.newFunctionWithName(reactionDiffusionModel.shaderName)
+            pipelineState = device.newComputePipelineStateWithFunction(kernelFunction!, error: nil)
+            
+            setUpTexture()
+            run()
+        }
     }
 
     var isRunning: Bool = false
@@ -190,7 +202,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
     
     final func run()
     {
-        if !isRunning
+        if device == nil || !isRunning
         {
             return
         }
@@ -331,6 +343,15 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
     
     override func viewDidLayoutSubviews()
     {
+        if errorFlag
+        {
+            let alertController = UIAlertController(title: "ReDiLab v1.0\nReaction Diffusion Laboratory", message: "\nSorry! ReDiLab requires an iPad with an A7 or later processor. It appears your device is earlier.", preferredStyle: UIAlertControllerStyle.Alert)
+
+            presentViewController(alertController, animated: true, completion: nil)
+            
+            errorFlag = false
+        }
+
         let imageSide = view.frame.height - topLayoutGuide.length
         
         imageView.frame = CGRect(x: 0, y: topLayoutGuide.length, width: imageSide, height: imageSide)

@@ -122,7 +122,7 @@ class ReactionDiffusionEditor: UIControl
     
     func aboutActionHandler(value: UIAlertAction!) -> Void
     {
-        var alertController = UIAlertController(title: "ReDiLab v1.0\nReaction Diffusion Laboratory", message: "\nSimon Gladman | November 2014", preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "ReDiLab v1.0\nReaction Diffusion Laboratory", message: "\nSimon Gladman | November 2014", preferredStyle: UIAlertControllerStyle.Alert)
         
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
         let openBlogAction = UIAlertAction(title: "Open Blog", style: .Default, handler: visitFlexMonkey)
