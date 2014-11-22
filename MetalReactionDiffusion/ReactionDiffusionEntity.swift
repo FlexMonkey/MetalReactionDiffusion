@@ -29,6 +29,7 @@ class ReactionDiffusionEntity: NSManagedObject {
     @NSManaged var beta: NSNumber
     @NSManaged var gamma: NSNumber
     @NSManaged var imageData: NSData
+    @NSManaged var autoSaved: NSNumber
     
     var pendingDelete: Bool = false
     
@@ -68,7 +69,7 @@ class ReactionDiffusionEntity: NSManagedObject {
         return returnObject
     }
     
-    class func createInManagedObjectContext(moc: NSManagedObjectContext, model: String, reactionDiffusionStruct: ReactionDiffusionParameters, image: UIImage) -> ReactionDiffusionEntity
+    class func createInManagedObjectContext(moc: NSManagedObjectContext, model: String, reactionDiffusionStruct: ReactionDiffusionParameters, image: UIImage, autoSaved: Bool = false) -> ReactionDiffusionEntity
     {
         let newItem = NSEntityDescription.insertNewObjectForEntityForName("ReactionDiffusionEntity", inManagedObjectContext: moc) as ReactionDiffusionEntity
         
@@ -91,7 +92,7 @@ class ReactionDiffusionEntity: NSManagedObject {
         newItem.alpha = reactionDiffusionStruct.alpha
         newItem.beta = reactionDiffusionStruct.beta
         newItem.gamma = reactionDiffusionStruct.gamma
-        
+        newItem.autoSaved = autoSaved
         
         return newItem
     }

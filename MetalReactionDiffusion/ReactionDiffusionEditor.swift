@@ -76,13 +76,15 @@ class ReactionDiffusionEditor: UIControl
         
         let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.Default, handler: saveActionHandler)
         let loadAction = UIAlertAction(title: "Browse and Load", style: UIAlertActionStyle.Default, handler: loadActionHandler)
-
+        let aboutAction = UIAlertAction(title: "About", style: UIAlertActionStyle.Default, handler: aboutActionHandler)
+        
         alertController.addAction(belousovZhabotinskyAction)
         alertController.addAction(fitzhughNagumoAction)
         alertController.addAction(grayScottAction)
         
         alertController.addAction(saveAction)
         alertController.addAction(loadAction)
+        alertController.addAction(aboutAction)
         
         if let viewController = UIApplication.sharedApplication().keyWindow!.rootViewController
         {
@@ -117,6 +119,28 @@ class ReactionDiffusionEditor: UIControl
     {
         sendActionsForControlEvents(UIControlEvents.LoadModel)
     }
+    
+    func aboutActionHandler(value: UIAlertAction!) -> Void
+    {
+        var alertController = UIAlertController(title: "ReDiLab v1.0\nReaction Diffusion Laboratory", message: "\nSimon Gladman | November 2014", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let openBlogAction = UIAlertAction(title: "Open Blog", style: .Default, handler: visitFlexMonkey)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(openBlogAction)
+        
+        if let viewController = UIApplication.sharedApplication().keyWindow!.rootViewController
+        {
+            viewController.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    func visitFlexMonkey(value: UIAlertAction!)
+    {
+        UIApplication.sharedApplication().openURL(NSURL(string: "http://flexmonkey.blogspot.co.uk")!)
+    }
+
     
     func resetSimulation()
     {

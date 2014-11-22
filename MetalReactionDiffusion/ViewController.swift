@@ -57,6 +57,16 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
     var threadGroups: MTLSize!
 
     var reactionDiffusionModel: ReactionDiffusion = GrayScott()
+    {
+        didSet
+        {
+            if oldValue.model != reactionDiffusionModel.model
+            {
+                newModelLoadedFlag = true
+            }
+        }
+    }
+    
     var requestedReactionDiffusionModel: ReactionDiffusionModels?
 
     let appDelegate: AppDelegate
@@ -83,23 +93,20 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
     
     override func viewDidLoad()
     {
-        reactionDiffusionModel = FitzhughNagumo()
-        reactionDiffusionModel.reactionDiffusionStruct.timestep = 0.02
-        reactionDiffusionModel.reactionDiffusionStruct.a0 = 0.664062
-        reactionDiffusionModel.reactionDiffusionStruct.a1 = 0.451172
-        reactionDiffusionModel.reactionDiffusionStruct.epsilon = 0.136719
-        reactionDiffusionModel.reactionDiffusionStruct.delta = 4.0
-        reactionDiffusionModel.reactionDiffusionStruct.k1 = 1.645508
-        reactionDiffusionModel.reactionDiffusionStruct.k2 = 0.0097
-        reactionDiffusionModel.reactionDiffusionStruct.k3 = 2.2314
-  
         super.viewDidLoad()
 
+        view.backgroundColor = UIColor.blackColor()
+        
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         
         view.addSubview(imageView)
         view.addSubview(editor)
 
+        editor.alpha = 0
+        imageView.alpha = 0
+
+        UIView.animateWithDuration(0.5, delay: 0.25, options: UIViewAnimationOptions.CurveEaseInOut, animations: {self.imageView.alpha = 1.0; self.editor.alpha = 1.0}, completion: nil)
+        
         editor.reactionDiffusionModel = reactionDiffusionModel
         editor.addTarget(self, action: "editorChangeHandler:", forControlEvents: UIControlEvents.ValueChanged)
         editor.addTarget(self, action: "resetSimulationHandler", forControlEvents: UIControlEvents.ResetSimulation)
@@ -142,9 +149,6 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
         if let fetchResults = managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [ReactionDiffusionEntity]
         {
             // retrieved fetchResults.count records....
-            
-            println("LOAD \(fetchResults.count)") // display message if count == 0
-
             popoverController.presentPopoverFromRect(view.frame, inView: view, permittedArrowDirections: UIPopoverArrowDirection.allZeros, animated: true)
         
             browseAndLoadController.fetchResults = fetchResults
@@ -156,10 +160,6 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
         if let _selectedEntity = browseAndLoadController.selectedEntity
         {
             reactionDiffusionModel = ReactionDiffusionEntity.createInstanceFromEntity(_selectedEntity)
-
-            println( "reactionDiffusionModel = \(reactionDiffusionModel.self)")
-            
-            newModelLoadedFlag = true
         }
     }
     
@@ -177,7 +177,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
         run()
     }
 
-    var isRunning: Bool = true
+    var isRunning: Bool = false
     {
         didSet
         {
@@ -247,7 +247,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
             }
    
             let fps = Int( 1 / (CFAbsoluteTimeGetCurrent() - self.runTime))
-            println("\(fps) fps")
+            //println("\(fps) fps")
             self.runTime = CFAbsoluteTimeGetCurrent()
             
             self.run()

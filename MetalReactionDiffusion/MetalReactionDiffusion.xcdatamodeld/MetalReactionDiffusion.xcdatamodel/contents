@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="ReactionDiffusionEntity" representedClassName="MetalReactionDiffusion.ReactionDiffusionEntity" syncable="YES">
         <attribute name="a0" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="a1" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="alpha" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="autoSaved" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="beta" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="delta" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="du" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -20,6 +21,6 @@
         <attribute name="timestep" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ReactionDiffusionEntity" positionX="-63" positionY="-18" width="128" height="300"/>
+        <element name="ReactionDiffusionEntity" positionX="-63" positionY="-18" width="128" height="315"/>
     </elements>
 </model>

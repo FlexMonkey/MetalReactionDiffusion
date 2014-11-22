@@ -19,6 +19,7 @@
 		BE9AA3A719F950A6006640BF /* ReactionDiffusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9AA3A619F950A6006640BF /* ReactionDiffusion.swift */; };
 		BEA8066519F40E75001C1673 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA8066419F40E75001C1673 /* Async.swift */; };
 		BEAC770D1A0207A4004FC852 /* ParameterWidgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAC770C1A0207A4004FC852 /* ParameterWidgetViewController.swift */; };
+		BEB11BB21A20684D00CD5515 /* LaunchScreenBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB11BB11A20684D00CD5515 /* LaunchScreenBackground.jpg */; };
 		BEB5F0BE19FB6FEA00517D2B /* grayScottNoisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB5F0BD19FB6FEA00517D2B /* grayScottNoisySquare.jpg */; };
 		BEB5F0C019FBB21B00517D2B /* fhnNoisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB5F0BF19FBB21B00517D2B /* fhnNoisySquare.jpg */; };
 		BEB5F0C219FBBB9500517D2B /* belousovNoisySquare.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */; };
@@ -57,6 +58,7 @@
 		BE9AA3A619F950A6006640BF /* ReactionDiffusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusion.swift; sourceTree = "<group>"; };
 		BEA8066419F40E75001C1673 /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		BEAC770C1A0207A4004FC852 /* ParameterWidgetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterWidgetViewController.swift; sourceTree = "<group>"; };
+		BEB11BB11A20684D00CD5515 /* LaunchScreenBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LaunchScreenBackground.jpg; sourceTree = "<group>"; };
 		BEB5F0BD19FB6FEA00517D2B /* grayScottNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grayScottNoisySquare.jpg; sourceTree = "<group>"; };
 		BEB5F0BF19FBB21B00517D2B /* fhnNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fhnNoisySquare.jpg; sourceTree = "<group>"; };
 		BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = belousovNoisySquare.jpg; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 		BE97558419F8FD940003C748 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				BEB11BB11A20684D00CD5515 /* LaunchScreenBackground.jpg */,
 				BEDB3F641A1892B4002CA9DF /* preset.jpg */,
 				BE3CC52B1A00BBB70065A637 /* grayScottNoisySquareTwo.jpg */,
 				BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */,
@@ -299,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEB5F0C219FBBB9500517D2B /* belousovNoisySquare.jpg in Resources */,
+				BEB11BB21A20684D00CD5515 /* LaunchScreenBackground.jpg in Resources */,
 				BEB5F0BE19FB6FEA00517D2B /* grayScottNoisySquare.jpg in Resources */,
 				BEDB3F651A1892B4002CA9DF /* preset.jpg in Resources */,
 				BEB6A4F619F21FCD00C158C8 /* Main.storyboard in Resources */,

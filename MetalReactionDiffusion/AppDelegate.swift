@@ -50,24 +50,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    func applicationDidEnterBackground(application: UIApplication)
+    {
+        deleteItemsPendingDelete()
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    func applicationWillEnterForeground(application: UIApplication)
+    {
     }
     
     func applicationDidBecomeActive(application: UIApplication)
     {
         if let viewController = window?.rootViewController as? ViewController
         {
+            loadAutoSaved()
+            
             viewController.isRunning = true
         }
     }
     
     func applicationWillTerminate(application: UIApplication)
+    {
+        deleteItemsPendingDelete()
+    }
+    
+    func loadAutoSaved()
+    {
+        var autoSavedFound: Bool = false
+        let fetchRequest = NSFetchRequest(entityName: "ReactionDiffusionEntity")
+        
+        if let _managedObjectContext = managedObjectContext
+        {
+            if let fetchResults = _managedObjectContext.executeFetchRequest(fetchRequest, error: nil) as? [ReactionDiffusionEntity]
+            {
+                for entity in fetchResults
+                {
+                    if (entity.autoSaved == true)
+                    {
+                        if let viewController = window?.rootViewController as? ViewController
+                        {
+                            viewController.reactionDiffusionModel = ReactionDiffusionEntity.createInstanceFromEntity(entity)
+                            
+                            autoSavedFound = true
+                        }
+                        
+                        _managedObjectContext.deleteObject(entity)
+                    }
+                }
+            }
+        }
+        
+        if !autoSavedFound
+        {
+            if let viewController = window?.rootViewController as? ViewController
+            {
+                viewController.reactionDiffusionModel = FitzhughNagumo()
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.timestep = 0.02
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.a0 = 0.664062
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.a1 = 0.451172
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.epsilon = 0.136719
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.delta = 4.0
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.k1 = 1.645508
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.k2 = 0.0097
+                viewController.reactionDiffusionModel.reactionDiffusionStruct.k3 = 2.2314
+            }
+        }
+    }
+    
+    func deleteItemsPendingDelete()
     {
         let fetchRequest = NSFetchRequest(entityName: "ReactionDiffusionEntity")
         
@@ -83,8 +133,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+            
+            // save current state
+            
+            if let viewController = window?.rootViewController as? ViewController
+            {
+                var newEntity = ReactionDiffusionEntity.createInManagedObjectContext(_managedObjectContext, model: viewController.reactionDiffusionModel.model.rawValue, reactionDiffusionStruct: viewController.reactionDiffusionModel.reactionDiffusionStruct, image: viewController.imageView.image!, autoSaved: true)
+            }
         }
-        
+ 
         self.saveContext()
     }
     
@@ -139,8 +196,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data Saving support
     
-    func saveContext () {
-        
+    func saveContext ()
+    {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
             if moc.hasChanges && !moc.save(&error) {
