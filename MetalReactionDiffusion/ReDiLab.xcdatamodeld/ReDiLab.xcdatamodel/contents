@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="ReactionDiffusionEntity" representedClassName="MetalReactionDiffusion.ReactionDiffusionEntity" syncable="YES">
+    <entity name="ReactionDiffusionEntity" representedClassName="ReDiLab.ReactionDiffusionEntity" syncable="YES">
         <attribute name="a0" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="a1" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="alpha" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>

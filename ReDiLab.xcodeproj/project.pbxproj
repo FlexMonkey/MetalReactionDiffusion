@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE1E50CA1A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE1E50C81A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodeld */; };
+		BE1E50CA1A04367B000BD5C1 /* ReDiLab.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE1E50C81A04367B000BD5C1 /* ReDiLab.xcdatamodeld */; };
 		BE1E50CD1A0437F8000BD5C1 /* ReactionDiffusionEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1E50CC1A0437F8000BD5C1 /* ReactionDiffusionEntity.swift */; };
 		BE1E51021A052976000BD5C1 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1E51011A052976000BD5C1 /* UIImageExtension.swift */; };
 		BE1E51041A052F9D000BD5C1 /* BrowseAndLoadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1E51031A052F9D000BD5C1 /* BrowseAndLoadController.swift */; };
@@ -46,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BE1E50C91A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MetalReactionDiffusion.xcdatamodel; sourceTree = "<group>"; };
+		BE1E50C91A04367B000BD5C1 /* ReDiLab.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReDiLab.xcdatamodel; sourceTree = "<group>"; };
 		BE1E50CC1A0437F8000BD5C1 /* ReactionDiffusionEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionDiffusionEntity.swift; sourceTree = "<group>"; };
 		BE1E51011A052976000BD5C1 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		BE1E51031A052F9D000BD5C1 /* BrowseAndLoadController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseAndLoadController.swift; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 		BEB5F0BF19FBB21B00517D2B /* fhnNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fhnNoisySquare.jpg; sourceTree = "<group>"; };
 		BEB5F0C119FBBB9500517D2B /* belousovNoisySquare.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = belousovNoisySquare.jpg; sourceTree = "<group>"; };
 		BEB634CA19F9664C00B4E24F /* hamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hamburger.png; sourceTree = "<group>"; };
-		BEB6A4EB19F21FCD00C158C8 /* MetalReactionDiffusion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalReactionDiffusion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEB6A4EB19F21FCD00C158C8 /* ReDiLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReDiLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEB6A4EF19F21FCD00C158C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEB6A4F019F21FCD00C158C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEB6A4F219F21FCD00C158C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				BE1E50CC1A0437F8000BD5C1 /* ReactionDiffusionEntity.swift */,
-				BE1E50C81A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodeld */,
+				BE1E50C81A04367B000BD5C1 /* ReDiLab.xcdatamodeld */,
 			);
 			name = coreData;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 		BEB6A4E219F21FCD00C158C8 = {
 			isa = PBXGroup;
 			children = (
-				BEB6A4ED19F21FCD00C158C8 /* MetalReactionDiffusion */,
+				BEB6A4ED19F21FCD00C158C8 /* ReDiLab */,
 				BEB6A50319F21FCD00C158C8 /* MetalReactionDiffusionTests */,
 				BEB6A4EC19F21FCD00C158C8 /* Products */,
 			);
@@ -169,13 +169,13 @@
 		BEB6A4EC19F21FCD00C158C8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BEB6A4EB19F21FCD00C158C8 /* MetalReactionDiffusion.app */,
+				BEB6A4EB19F21FCD00C158C8 /* ReDiLab.app */,
 				BEB6A50019F21FCD00C158C8 /* MetalReactionDiffusionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BEB6A4ED19F21FCD00C158C8 /* MetalReactionDiffusion */ = {
+		BEB6A4ED19F21FCD00C158C8 /* ReDiLab */ = {
 			isa = PBXGroup;
 			children = (
 				BE1E50CB1A0437D3000BD5C1 /* coreData */,
@@ -192,6 +192,7 @@
 				BEB6A4EE19F21FCD00C158C8 /* Supporting Files */,
 				BE1E51011A052976000BD5C1 /* UIImageExtension.swift */,
 			);
+			name = ReDiLab;
 			path = MetalReactionDiffusion;
 			sourceTree = "<group>";
 		};
@@ -237,7 +238,7 @@
 			);
 			name = MetalReactionDiffusion;
 			productName = MetalReactionDiffusion;
-			productReference = BEB6A4EB19F21FCD00C158C8 /* MetalReactionDiffusion.app */;
+			productReference = BEB6A4EB19F21FCD00C158C8 /* ReDiLab.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BEB6A4FF19F21FCD00C158C8 /* MetalReactionDiffusionTests */ = {
@@ -277,7 +278,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BEB6A4E619F21FCD00C158C8 /* Build configuration list for PBXProject "MetalReactionDiffusion" */;
+			buildConfigurationList = BEB6A4E619F21FCD00C158C8 /* Build configuration list for PBXProject "ReDiLab" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -329,7 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE1E50CA1A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodeld in Sources */,
+				BE1E50CA1A04367B000BD5C1 /* ReDiLab.xcdatamodeld in Sources */,
 				BE9AA3A719F950A6006640BF /* ReactionDiffusion.swift in Sources */,
 				BE1E51041A052F9D000BD5C1 /* BrowseAndLoadController.swift in Sources */,
 				BEA8066519F40E75001C1673 /* Async.swift in Sources */,
@@ -473,7 +474,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MetalReactionDiffusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReDiLab;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -487,7 +488,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MetalReactionDiffusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReDiLab;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -508,7 +509,6 @@
 				INFOPLIST_FILE = MetalReactionDiffusionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MetalReactionDiffusion.app/MetalReactionDiffusion";
 			};
 			name = Debug;
 		};
@@ -523,14 +523,13 @@
 				INFOPLIST_FILE = MetalReactionDiffusionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MetalReactionDiffusion.app/MetalReactionDiffusion";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BEB6A4E619F21FCD00C158C8 /* Build configuration list for PBXProject "MetalReactionDiffusion" */ = {
+		BEB6A4E619F21FCD00C158C8 /* Build configuration list for PBXProject "ReDiLab" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEB6A50819F21FCD00C158C8 /* Debug */,
@@ -560,13 +559,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		BE1E50C81A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodeld */ = {
+		BE1E50C81A04367B000BD5C1 /* ReDiLab.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				BE1E50C91A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodel */,
+				BE1E50C91A04367B000BD5C1 /* ReDiLab.xcdatamodel */,
 			);
-			currentVersion = BE1E50C91A04367B000BD5C1 /* MetalReactionDiffusion.xcdatamodel */;
-			path = MetalReactionDiffusion.xcdatamodeld;
+			currentVersion = BE1E50C91A04367B000BD5C1 /* ReDiLab.xcdatamodel */;
+			path = ReDiLab.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
