@@ -180,7 +180,7 @@ class BrowseAndLoadController: UIViewController, UICollectionViewDataSource, UIC
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as ReactionDiffusionEntityRenderer
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! ReactionDiffusionEntityRenderer
         
         cell.reactionDiffusionEntity = dataprovider[indexPath.item]
         
@@ -215,8 +215,7 @@ class ReactionDiffusionEntityRenderer: UICollectionViewCell
         
         contentView.layer.cornerRadius = 5
         contentView.layer.masksToBounds = true
-        
-        label = UILabel(frame: CGRectZero)
+
         label.numberOfLines = 0
         label.frame = CGRect(x: 0, y: frame.height - 20, width: frame.width, height: 20)
         label.adjustsFontSizeToFitWidth = true

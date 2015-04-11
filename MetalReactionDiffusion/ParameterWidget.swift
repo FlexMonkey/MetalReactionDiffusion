@@ -58,7 +58,7 @@ class ParameterWidget: UIControl, UIPopoverControllerDelegate
     {
         if recognizer.state == UIGestureRecognizerState.Began
         {
-            if let rootController = UIApplication.sharedApplication().keyWindow!.rootViewController?
+            if let rootController = UIApplication.sharedApplication().keyWindow!.rootViewController
             {
                 var popupSource = layer.frame
                 popupSource.origin.x += superview!.frame.origin.x
@@ -93,7 +93,7 @@ class ParameterWidget: UIControl, UIPopoverControllerDelegate
     {
         if let fieldName = reactionDiffusionFieldName
         {
-            label.text = fieldName.rawValue + " = " + NSString(format: "%.6f", value)
+            label.text = fieldName.rawValue + " = " + (NSString(format: "%.6f", value) as String)
         }
     }
     

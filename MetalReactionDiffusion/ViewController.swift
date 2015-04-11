@@ -22,16 +22,16 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
     let bitmapInfo = CGBitmapInfo(CGBitmapInfo.ByteOrder32Big.rawValue | CGImageAlphaInfo.PremultipliedLast.rawValue)
     let renderingIntent = kCGRenderingIntentDefault
     
-    let imageSide: UInt = 640
+    let imageSide: Int = 640
     let imageSize = CGSize(width: Int(640), height: Int(640))
     let imageByteCount = Int(640 * 640 * 4) 
     
-    let bytesPerPixel = UInt(4)
-    let bitsPerComponent = UInt(8)
-    let bitsPerPixel:UInt = 32
+    let bytesPerPixel = Int(4)
+    let bitsPerComponent = Int(8)
+    let bitsPerPixel:Int = 32
     let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
      
-    let bytesPerRow = UInt(4 * 640)
+    let bytesPerRow = Int(4 * 640)
     let providerLength = Int(640 * 640 * 4) * sizeof(UInt8)
     var imageBytes = [UInt8](count: Int(640 * 640 * 4), repeatedValue: 0)
     
@@ -78,7 +78,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
     
     required init(coder aDecoder: NSCoder)
     {
-        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         managedObjectContext = appDelegate.managedObjectContext!
         
         browseAndLoadController = BrowseAndLoadController()
@@ -335,7 +335,7 @@ class ViewController: UIViewController, UIPopoverControllerDelegate
         
         let providerRef = CGDataProviderCreateWithCFData(NSData(bytes: &imageBytes, length: providerLength))
        
-        let imageRef = CGImageCreate(UInt(imageSize.width), UInt(imageSize.height), bitsPerComponent, bitsPerPixel, bytesPerRow, rgbColorSpace, bitmapInfo, providerRef, nil, false, renderingIntent)
+        let imageRef = CGImageCreate(Int(imageSize.width), Int(imageSize.height), bitsPerComponent, bitsPerPixel, bytesPerRow, rgbColorSpace, bitmapInfo, providerRef, nil, false, renderingIntent)
 
         return UIImage(CGImage: imageRef)!
     }

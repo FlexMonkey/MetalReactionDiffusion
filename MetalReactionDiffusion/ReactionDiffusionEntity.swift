@@ -71,7 +71,7 @@ class ReactionDiffusionEntity: NSManagedObject {
     
     class func createInManagedObjectContext(moc: NSManagedObjectContext, model: String, reactionDiffusionStruct: ReactionDiffusionParameters, image: UIImage, autoSaved: Bool = false) -> ReactionDiffusionEntity
     {
-        let newItem = NSEntityDescription.insertNewObjectForEntityForName("ReactionDiffusionEntity", inManagedObjectContext: moc) as ReactionDiffusionEntity
+        let newItem = NSEntityDescription.insertNewObjectForEntityForName("ReactionDiffusionEntity", inManagedObjectContext: moc) as! ReactionDiffusionEntity
         
         newItem.model = model
         
